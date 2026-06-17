@@ -29,6 +29,7 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
    bash scripts/collect.sh https://domeniul-clientului.ro
    ```
    Aduna: title/meta/H1, robots+sitemap, schema, HTTPS/www, e-commerce, feed/Shopping, viteza (PSI best-effort), competitie Ads. Citeste tot output-ul.
+   **Daca apare `!!! BLOCKER` (Cloudflare/anti-bot):** crawler-ul e blocat, datele sunt false. NU genera audit pe ele. Fallback: ia paginile prin browser (Playwright MCP: `browser_navigate` + `browser_evaluate` ca sa scoti HTML real), apoi continua. Daca nici asa nu merge, spune userului ca site-ul blocheaza crawl si cere alta metoda.
 
 2. **Verifica manual ce conteaza** (nu te baza orb pe script):
    - deschide 1 pagina produs + 1 categorie (schema Product, pret, availability, reviews)

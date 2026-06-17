@@ -26,6 +26,12 @@ fetch "$URL/" > "$TMP/home.html"
 HSIZE=$(wc -c < "$TMP/home.html" | tr -d ' ')
 echo "===== HOMEPAGE ====="
 echo "HTML size: $HSIZE bytes"
+# detectie protectie anti-bot (Cloudflare / challenge) — crawler blocat, datele nu sunt fiabile
+if grep -qiE 'Just a moment|cf-mitigated|challenge-platform|Attention Required|_cf_chl|Enable JavaScript and cookies' "$TMP/home.html" || [ "$HSIZE" -lt 2000 ]; then
+  echo "!!! BLOCKER: site in spatele protectiei anti-bot (Cloudflare/challenge) sau pagina goala."
+  echo "!!! Crawler-ul nu primeste HTML real. Optiuni: ruleaza din browser (Playwright) sau cere acces."
+  echo "!!! NU genera audit pe datele de mai jos — sunt incomplete/false."
+fi
 python3 - "$TMP/home.html" <<'PY'
 import sys, re, html
 h = open(sys.argv[1], encoding='utf-8', errors='ignore').read()
