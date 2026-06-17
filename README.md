@@ -12,10 +12,10 @@ Genereaza un **raport PDF de audit (SEO + Google Ads/Shopping)** branduit Devrik
 
 ## Instalare (colegi)
 ```bash
-git clone <repo-url> audit-devrika
-cp -r audit-devrika ~/.claude/skills/audit-devrika
+git clone https://github.com/devrikaro-ship-it/audit-devrika.git ~/.claude/skills/audit-devrika
 chmod +x ~/.claude/skills/audit-devrika/scripts/*.sh
 ```
+(repo privat — cere acces de colaborator pe `devrikaro-ship-it/audit-devrika`)
 Necesita: **Google Chrome** instalat, `curl`, `python3` (doar stdlib). Fara chei API.
 
 ## Folosire
