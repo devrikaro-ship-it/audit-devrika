@@ -269,17 +269,26 @@
   <table class="findings-table">
     <thead><tr><th class="col-sev">Prioritate</th><th>Oportunitate / Problema</th><th class="col-area">Impact</th><th class="col-fix">Efort</th></tr></thead>
     <tbody>
+      <!-- RAND OBLIGATORIU 1: SEGMENTARE PRODUSE — mereu prezent la orice client cu Shopping -->
       <tr>
         <td><span class="badge badge-critical">Mare</span></td>
+        <td><span class="finding-title">Lipsa segmentare produse — bugetul se arde pe produse care nu vand</span><span class="finding-desc">Ai {{NR_PRODUSE}} produse in Shopping fara un sistem de separare pe performanta (Heroes / Villains / Zombies). Bugetul se imparte ~egal pe tot catalogul.</span><span class="meaning">Platesti click-uri si pe produsele care nu aduc nicio comanda (Villains + Zombies). Cu etichetare pe performanta, banii merg pe produsele care vand — aceeasi investitie, mai multe comenzi.</span></td>
+        <td>Buget irosit</td>
+        <td><span class="effort effort-medium">Setup</span></td>
+      </tr>
+      <!-- RAND OBLIGATORIU 2: CSS — completeaza din research Playwright ("By ..."). Daca fara CSS, spune ce pierde. -->
+      <tr>
+        <td><span class="badge badge-high">Important</span></td>
+        <td><span class="finding-title">{{CSS_TITLU}}</span><span class="finding-desc">{{CSS_DESC}}</span><span class="meaning">{{CSS_MEANING}}</span></td>
+        <td>{{CSS_IMPACT}}</td>
+        <td><span class="effort effort-low">{{CSS_EFORT}}</span></td>
+      </tr>
+      <!-- restul oportunitatilor specifice site-ului -->
+      <tr>
+        <td><span class="badge badge-high">Important</span></td>
         <td><span class="finding-title">{{ADS_F1_TITLU}}</span><span class="finding-desc">{{ADS_F1_DESC}}</span><span class="meaning">{{ADS_F1_MEANING}}</span></td>
         <td>{{ADS_F1_IMPACT}}</td>
         <td><span class="effort effort-medium">{{ADS_F1_EFORT}}</span></td>
-      </tr>
-      <tr>
-        <td><span class="badge badge-high">Important</span></td>
-        <td><span class="finding-title">{{ADS_F2_TITLU}}</span><span class="finding-desc">{{ADS_F2_DESC}}</span><span class="meaning">{{ADS_F2_MEANING}}</span></td>
-        <td>{{ADS_F2_IMPACT}}</td>
-        <td><span class="effort effort-low">{{ADS_F2_EFORT}}</span></td>
       </tr>
       <!-- ... -->
     </tbody>

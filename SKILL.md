@@ -37,6 +37,12 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
    - GMC/Shopping: ID-ul nu e public → raporteaza "feed de verificat" + oportunitate
    - competitie: deschide linkurile Ads Transparency / Meta Ad Library din output
 
+2b. **Research Google Shopping (Playwright, best-effort)** — vezi `references/google-ads-research.md`
+   - cauta 2-3 produse reale ale clientului pe Google Shopping → ruleaza Shopping? produsele apar?
+   - citeste atributul **"By <provider>"** sub produs: `By Google Shopping` = **fara CSS** → spune-i ce pierde (CPC pana la ~20% mai mare, fara plasare premium); alt nume (ProductHero/Bidnamic) = deja pe CSS
+   - daca Google blocheaza (CAPTCHA/consent) → "research neconcludent", NU inventa
+   - **MEREU**, indiferent de research: constatare segmentare produse (Heroes/Villains/Zombies) — fara separare, bugetul se arde pe produse care nu vand. Vezi research §A.
+
 3. **Scoreaza** (0-100 per categorie). Vezi `references/scoring.md`. Calculeaza scorul global ponderat.
 
 4. **Construieste raportul**

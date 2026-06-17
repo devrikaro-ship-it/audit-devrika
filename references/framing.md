@@ -17,7 +17,8 @@ Fiecare problema se traduce in **una din astea 3**, niciodata jargon gol:
 | TTFB lent / HTML greu | "Site-ul se incarca greu, iar 1 din 2 vizitatori pleaca inainte sa vada produsul" |
 | Meta description lipsa | "Google scrie singur textul din rezultate — de multe ori prost — si pierzi click-uri" |
 | Fara feed Shopping optimizat | "Nu aparti in Google Shopping unde cumparatorii compara preturi gata sa cumpere" |
-| Fara CSS pe Shopping | "Platesti pana la 20% mai mult pe fiecare click decat e nevoie" |
+| Fara CSS pe Shopping (vezi "By Google Shopping") | "Platesti pana la 20% mai mult pe fiecare click decat e nevoie — competitia pe CSS plateste mai putin pe aceeasi pozitie" |
+| Fara segmentare produse (mereu) | "Bugetul se duce egal pe tot catalogul, inclusiv pe produsele care nu vand niciodata (Villains/Zombies). Banii pleaca pe ce nu aduce comenzi." |
 
 ## Ton
 - Direct, simplu, fraze scurte. Zero abrevieri neexplicate.
