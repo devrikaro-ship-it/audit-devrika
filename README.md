@@ -10,12 +10,11 @@ Genereaza un **raport PDF de audit (SEO + Google Ads/Shopping)** branduit Devrik
 - 5 pagini A4: coperta, rezumat, SEO, Google Ads/Shopping, plan + CTA
 - PDF profesionist generat din HTML via Chrome headless
 
-## Instalare (colegi)
+## Instalare
 ```bash
 git clone https://github.com/devrikaro-ship-it/audit-devrika.git ~/.claude/skills/audit-devrika
-chmod +x ~/.claude/skills/audit-devrika/scripts/*.sh
 ```
-(repo privat — cere acces de colaborator pe `devrikaro-ship-it/audit-devrika`)
+Reporneste Claude Code → apare `/audit-devrika`. Repo public, nu necesita acces.
 Necesita: **Google Chrome** instalat, `curl`, `python3` (doar stdlib). Fara chei API.
 
 ## Folosire
