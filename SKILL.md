@@ -28,7 +28,7 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
    ```
    python scripts/collect.py https://domeniul-clientului.ro
    ```
-   Aduna: title/meta/H1/H2, meta robots+hreflang, robots+sitemap, schema, HTTPS/www, **security headers** (HSTS/CSP/X-Frame), **broken links** (esantion), **readability + citability AI** (propozitii, liste, FAQ, JS-render), imagini/alt/format, **viteza TTFB + CWV reali** (CrUX cu cheie), e-commerce/stoc, feed/Shopping, competitie Ads. Citeste tot output-ul.
+   Aduna: title/meta/H1/H2, meta robots+hreflang, robots+sitemap, schema, HTTPS/www, **security headers** (HSTS/CSP/X-Frame), **broken links** (esantion), **readability + citability AI** (propozitii, liste, FAQ, JS-render), imagini/alt/format, **viteza TTFB + CWV reali** (CrUX cu cheie), **tracking & pixeli** (GA4, GTM, Google Ads conversion AW-, **Meta Pixel**, TikTok, Bing UET, Consent Mode), e-commerce/stoc, feed/Shopping, competitie Ads. Citeste tot output-ul.
    **Daca apare `!!! BLOCKER` (Cloudflare/anti-bot):** crawler-ul e blocat, datele sunt false. NU genera audit pe ele. Fallback: ia paginile prin browser (Playwright MCP: `browser_navigate` + `browser_evaluate` ca sa scoti HTML real), apoi continua. Daca nici asa nu merge, spune userului ca site-ul blocheaza crawl si cere alta metoda.
 
 2. **Verifica manual ce conteaza** (nu te baza orb pe script):
@@ -39,9 +39,14 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
 
 2b. **Research Google Shopping (Playwright, best-effort)** — vezi `references/google-ads-research.md`
    - cauta 2-3 produse reale ale clientului pe Google Shopping → ruleaza Shopping? produsele apar?
-   - citeste atributul **"By <provider>"** sub produs: `By Google Shopping` = **fara CSS** → spune-i ce pierde (CPC pana la ~20% mai mare, fara plasare premium); alt nume (ProductHero/Bidnamic) = deja pe CSS
+   - citeste atributul **"De la <provider>"** sub produs: `De la Google` = **fara CSS** → spune-i ce pierde (CPC pana la ~20% mai mare, fara plasare premium); alt nume (TRUDA/ProductHero/smec) = deja pe CSS
    - daca Google blocheaza (CAPTCHA/consent) → "research neconcludent", NU inventa
    - **MEREU**, indiferent de research: constatare segmentare produse (Heroes/Villains/Zombies) — fara separare, bugetul se arde pe produse care nu vand. Vezi research §A.
+
+2c. **Research Meta Ads (Playwright, cold)** — vezi `references/meta-ads-research.md`
+   - **Meta Pixel** din collect (DA/NU) + **CAPI** mereu "de verificat" — la ecom fara Pixel = finding "Mare"
+   - **Meta Ad Library** (publica, fara cont): ruleaza reclame ACUM? cate active? → "0 = oportunitate mare" / compara cu 2-3 competitori ("el ruleaza N, tu 0")
+   - daca cere login/consent → "neconfirmat", NU inventa
 
 3. **Scoreaza** (0-100 per categorie). Vezi `references/scoring.md`. Calculeaza scorul global ponderat.
 
@@ -50,8 +55,9 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
    - **doar SEO + Google Ads** (fara stoc, fara recenzii, fara merchandising)
    - design **vizual, putin text**: findings = carduri cu `{sev, title, impact, tag, effort}` — titlu scurt + O singura linie de impact (nu paragrafe)
    - `scores`: doar `{global, seo, ads}`; culori auto (rosu <40, portocaliu 40-69, verde 70+)
-   - **max ~4 carduri** per pagina (SEO findings, Ads findings) ca sa incapa pe A4 cu spatiu
-   - Ads include MEREU: `ads_verdict` (CSS din research) + cardul de segmentare
+   - **max ~6 carduri** per pagina (SEO findings, Ads findings) ca sa incapa pe A4 cu spatiu
+   - Ads include MEREU: banda `track_signals` (pixeli DA/NU, vizual) + `ads_verdict` (CSS din research) + cardul de segmentare
+   - cand poti, baga **un numar estimat de bani** (marcat estimativ) — vezi `references/framing.md` §Estimare bani
    ```
    python scripts/build.py date.json raport.html
    ```
@@ -67,7 +73,7 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
 1. **Coperta** — domeniu, gauge global + 2 scoruri mari (SEO, Google Ads) cu verdict
 2. **Ce am gasit pe scurt** — hero-stats (N probleme / M oportunitati) + carduri "ce te costa" / "castiguri rapide"
 3. **SEO** — chips semnale tehnice + carduri "ce te tine pe loc"
-4. **Google Ads / Shopping** — bloc verdict CSS + carduri "bani lasati pe masa"
+4. **Google Ads / Shopping** — banda tracking (ce masori: GA4/Pixel/conversion/Consent) + bloc verdict CSS + carduri "bani lasati pe masa"
 5. **Plan (pasi vizuali) + CTA Devrika**
 
 ## Note

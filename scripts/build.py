@@ -33,7 +33,7 @@ def cards(arr, grow=False):
                 f'<div class="fcard-foot">{tag}{eff}</div></div>')
     return f'<div class="cards{" grow" if grow else ""}">{out}</div>'
 
-def tech_chips(arr):
+def tech_chips(arr, title="Semnale tehnice verificate"):
     if not arr:
         return ""
     chips = ""
@@ -43,7 +43,7 @@ def tech_chips(arr):
         mark = "&#10003;" if ok else "&#10007;"
         chips += (f'<span class="chip" style="margin:0 1.5mm 1.5mm 0;padding:1mm 2.5mm;font-size:6.5pt">'
                   f'<span style="color:{col};font-weight:700">{mark}</span> {c["label"]}</span>')
-    return ('<div class="section-title">Semnale tehnice verificate</div>'
+    return (f'<div class="section-title">{title}</div>'
             f'<div style="display:flex;flex-wrap:wrap;margin-bottom:3mm">{chips}</div>')
 
 def steps(arr, grow=False):
@@ -129,6 +129,7 @@ def build(d):
 <div class="page page-inner">
   <div class="page-header"><div class="page-section-label">Google Ads &amp; Shopping</div><div class="page-logo-sm">{sub}</div></div>
   <div class="pfill">
+    {tech_chips(d.get("track_signals", []), "Ce masori acum (tracking &amp; pixeli)")}
     {verdict_block}
     <div class="section-title">Bani lasati pe masa</div>
     {cards(d.get("ads_findings", []), grow=True)}

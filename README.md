@@ -8,7 +8,9 @@ Genereaza un **raport PDF de audit (SEO + Google Ads/Shopping)** branduit Devrik
 - Crawl public al site-ului — **zero acces la cont, doar URL-ul**
 - Scor de vizibilitate online 0-100 + sub-scoruri
 - **SEO**: tehnic (HTTPS, redirects, sitemap, canonical, robots, hreflang), security headers (HSTS/CSP), broken links, on-page (title/meta/H1/H2), schema, imagini, viteza (TTFB + CWV reali din CrUX), readability + citability AI
-- **Google Ads / Shopping**: ruleaza Shopping?, ce CSS foloseste (ProductHero/TRUDA/fara), segmentare produse, competitie
+- **Tracking & pixeli** (din sursa, cold): GA4, Google Tag Manager, Google Ads conversion (AW-), **Meta Pixel**, TikTok, Bing UET, Pinterest, Consent Mode v2 / CMP — "ce masori vs ce NU masori"
+- **Google Ads / Shopping**: ruleaza Shopping?, ce CSS foloseste (ProductHero/TRUDA/fara), segmentare produse (Heroes/Villains/Zombies), competitie
+- **Meta Ads** (cold, fara cont): Meta Pixel instalat?, ruleaza reclame acum? (Ad Library public), competitie
 - 5 pagini A4: coperta, rezumat, SEO, Google Ads/Shopping, plan + CTA
 - PDF profesionist generat din HTML via Chrome headless
 - Tot ce e gratis, fara chei API (optional: GOOGLE_API_KEY pt CWV reali fara rate-limit)
@@ -46,9 +48,10 @@ audit-devrika/
 │   ├── styles.css           # CSS brand Devrika (design vizual)
 │   └── example.json         # schema + exemplu date raport (vegis.ro)
 └── references/
-    ├── framing.md           # ton lead-gen, traduceri tehnic->client
-    ├── scoring.md           # cum dai scorurile 0-100
-    └── google-ads-research.md  # research CSS/Shopping via Playwright
+    ├── framing.md             # ton lead-gen, traduceri tehnic->client + estimare bani
+    ├── scoring.md             # cum dai scorurile 0-100 (incl. tracking)
+    ├── google-ads-research.md # research CSS/Shopping via Playwright
+    └── meta-ads-research.md   # Meta Pixel + Ad Library (cold, fara cont)
 ```
 
 ## Note

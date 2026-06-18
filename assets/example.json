@@ -45,6 +45,16 @@
     { "sev": "low", "title": "llms.txt lipsa + continut greu de citat de AI", "impact": "Propozitii lungi, fara FAQ — neoptim pentru Google AI / ChatGPT.", "tag": "AI / GEO", "effort": "1h" }
   ],
 
+  "track_signals": [
+    { "label": "Google Analytics 4", "ok": true },
+    { "label": "Google Tag Manager", "ok": true },
+    { "label": "Google Ads conversion (AW-)", "ok": true },
+    { "label": "Meta Pixel (Facebook/IG)", "ok": false },
+    { "label": "Meta CAPI server-side", "ok": false },
+    { "label": "TikTok Pixel", "ok": false },
+    { "label": "Consent Mode v2", "ok": false }
+  ],
+
   "ads_verdict": {
     "ok": true,
     "badge": "CSS: TRUDA",

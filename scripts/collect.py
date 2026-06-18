@@ -231,6 +231,47 @@ def main():
         print("Sitemap: negasit la", smap_url)
     print()
 
+    # ---------- TRACKING & MASURARE (pixeli, cold din sursa) ----------
+    print("===== TRACKING & MASURARE (pixeli, din sursa paginii) =====")
+    ga4 = re.search(r'gtag/js\?id=(G-[A-Z0-9]{6,})|["\'](G-[A-Z0-9]{6,})["\']', h, re.I)
+    ga4id = (ga4.group(1) or ga4.group(2)) if ga4 else None
+    gtm = re.search(r'(GTM-[A-Z0-9]{4,})', h, re.I)
+    aw = re.search(r'(AW-\d{6,})', h, re.I)
+    aw_alt = bool(re.search(r'google_conversion_id|googleadservices\.com/pagead/conversion', h, re.I))
+    fbpix = re.search(r"fbq\(\s*['\"]init['\"]\s*,\s*['\"](\d{6,})", h)
+    fbpix_alt = bool(re.search(r'connect\.facebook\.net|fbevents\.js', h, re.I))
+    ua = re.search(r'(UA-\d{4,}-\d+)', h)
+    ttk = bool(re.search(r'analytics\.tiktok\.com|ttq\.(load|page|track)', h, re.I))
+    uet = bool(re.search(r'bat\.bing\.com|uetq\b', h, re.I))
+    pin = bool(re.search(r'pintrk\(|s\.pinimg\.com/ct', h, re.I))
+    snap = bool(re.search(r'snaptr\(|sc-static\.net', h, re.I))
+    consent = next((c for s, c in [(r'cookiebot', 'Cookiebot'), (r'onetrust|otSDK', 'OneTrust'),
+                    (r'cookieyes', 'CookieYes'), (r'complianz', 'Complianz'), (r'iubenda', 'iubenda'),
+                    (r'usercentrics', 'Usercentrics'), (r'cookie-?law|cookie-?consent|cookie-?notice', 'CMP generic')]
+                    if re.search(s, h, re.I)), None)
+    consent_mode = bool(re.search(r"gtag\(\s*['\"]consent['\"]", h, re.I))
+    behav = [n for s, n in [(r'static\.hotjar|hotjar\.com', 'Hotjar'), (r'clarity\.ms', 'MS Clarity')] if re.search(s, h, re.I)]
+    print("Google Analytics 4:", f"DA ({ga4id})" if ga4id else ("posibil (gtag prezent, fara ID vizibil)" if re.search(r'gtag\(', h) else "NU vizibil in sursa"))
+    if ua: print("  ! Universal Analytics (" + ua.group(1) + ") inca prezent — depreciat din iul 2023, nu mai colecteaza")
+    print("Google Tag Manager:", f"DA ({gtm.group(1)})" if gtm else "NU")
+    print("Google Ads conversion/remarketing:", (f"DA ({aw.group(1)})" if aw else "DA") if (aw or aw_alt) else "NU vizibil")
+    print("Meta Pixel (Facebook/Instagram):", (f"DA (id {fbpix.group(1)})" if fbpix else "DA") if (fbpix or fbpix_alt) else "NU vizibil")
+    print("  Meta CAPI (server-side): nu se poate confirma cold — de verificat in Events Manager")
+    print("TikTok Pixel:", "DA" if ttk else "NU")
+    print("Microsoft/Bing UET:", "DA" if uet else "NU")
+    print("Pinterest Tag:", "DA" if pin else "NU")
+    print("Snapchat Pixel:", "DA" if snap else "NU")
+    print("Consent/CMP (GDPR):", consent or "NU detectat (risc legal + Consent Mode)")
+    print("Consent Mode v2 (gtag consent):", "DA" if consent_mode else "NU vizibil")
+    print("Analytics comportament:", ", ".join(behav) or "niciunul (Hotjar/Clarity)")
+    _any_track = bool(ga4id or gtm or aw or aw_alt or fbpix or fbpix_alt or ttk or uet or pin or snap)
+    if gtm and not (ga4id or fbpix or aw):
+        print("  NB: GTM prezent dar pixelii nu apar in HTML brut — se incarca probabil PRIN GTM. Confirma live (Meta Pixel Helper / Google Tag Assistant) inainte sa afirmi 'lipsa'.")
+    elif not _any_track:
+        print("  NB: niciun tracker vizibil in sursa. Site SPA / consent-gated isi incarca pixelii dupa consimtamant sau prin tag manager server-side.")
+        print("      'NU vizibil' NU inseamna 'lipsa' — confirma live (Playwright + Pixel Helper / Tag Assistant) inainte de orice afirmatie in raport.")
+    print()
+
     # ---------- GOOGLE ADS / SHOPPING ----------
     print("===== GOOGLE ADS / SHOPPING — semnale oportunitate =====")
     ecom = bool(re.search(r"add-to-cart|/cart|/product|/cos|adauga in cos|woocommerce|shopify|/shop|/magazin|priceCurrency", h, re.I))

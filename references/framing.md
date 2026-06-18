@@ -23,6 +23,19 @@ Fiecare problema se traduce in **una din astea 3**, niciodata jargon gol:
 | Broken links (404) | "Ai linkuri care duc in pagini moarte — clientul se loveste de erori, iar Google iroseste timp pe ele" |
 | Propozitii lungi / fara structura | "Textul e greu de citit si de inteles, si mai greu de citat de Google AI / ChatGPT — pierzi vizibilitate in raspunsurile AI" |
 | Fara FAQ / liste / paragrafe scurte | "Continutul nu e usor de extras de motoarele AI — concurentii cu raspunsuri clare sunt citati, tu nu" |
+| Meta Pixel lipsa | "Daca dai reclame pe Facebook/Instagram, nu masori ce vand — optimizezi pe orb si arzi buget" |
+| Meta CAPI (de verificat) | "Fara partea server-side, pierzi 10-30% din conversiile masurate dupa iOS 14 — reclamele par mai slabe decat sunt" |
+| Google Ads conversion tag lipsa | "Google nu stie ce reclama aduce vanzari — nu poate optimiza spre cumparatori, doar spre click-uri ieftine" |
+| GA4 lipsa | "Nu vezi de unde vin clientii si ce pagini vand — decizi din burta, nu din date" |
+| Consent Mode v2 lipsa | "Fara consimtamant configurat corect, pierzi date de conversie in UE si risti probleme GDPR" |
+| Nu ruleaza reclame Meta (Ad Library 0) | "Canalul cu cel mai mare volum pentru magazine online e neatins — competitorul ruleaza N reclame, tu 0" |
+
+## Estimare bani (cifra grosiera, MEREU marcata estimare)
+Decidentul vrea un NUMAR. Da unul, dar onest — marcat "estimativ", din semnale, nu din contul lor:
+- **CPC mai mare fara CSS**: "fara CSS platesti pana la ~20% mai mult pe click — la un buget de X lei/luna, ~0.2X lei se duc degeaba." (X = il intrebi sau pui un interval "ex. la 5.000 lei/luna = ~1.000 lei").
+- **Buget pe Villains/Zombies**: "tipic 20-40% din bugetul de Shopping merge pe produse care nu vand — la X lei, sunt Y lei recuperabili."
+- **Conversii pierdute fara CAPI/tracking**: "10-30% din conversii nemasurate = optimizare proasta = buget irosit, nu doar raportare."
+- NU inventa spend-ul lor. Foloseste intervale ("la un buget tipic de...") sau lasa loc de completat la discutie.
 
 ## Ton
 - Direct, simplu, fraze scurte. Zero abrevieri neexplicate.
