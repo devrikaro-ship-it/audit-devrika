@@ -146,7 +146,7 @@ def build(d):
     <div class="cta"><h3>{cta.get("title","Vrei sa rezolvam asta pentru tine?")}</h3>
       <p>{cta.get("text","Echipa Devrika poate implementa tot planul de mai sus. Prima discutie e gratuita.")}</p>
       <span class="cta-btn">{cta.get("btn","Programeaza o discutie gratuita")}</span>
-      <div class="cta-contact">{cta.get("contact","<strong>devrika.ro</strong> · contact@devrika.ro")}</div></div>
+      <div class="cta-contact">{cta.get("contact","<strong>devrika.ro</strong> · hello@devrika.ro · Razvan 0742 374 325 · Vlad 0756 281 176")}</div></div>
   </div>
   {footer(5)}
 </div>
