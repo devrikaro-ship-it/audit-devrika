@@ -8,6 +8,8 @@ import os, sys, json
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CSS = open(os.path.join(HERE, "..", "assets", "styles.css"), encoding="utf-8").read()
+_logo_path = os.path.join(HERE, "..", "assets", "logo.svg")
+LOGO = open(_logo_path, encoding="utf-8").read() if os.path.exists(_logo_path) else '<div class="cover-logo-text">DEVRIKA AGENCY</div>'
 
 def color(s):
     s = int(s)
@@ -95,7 +97,7 @@ def build(d):
     <strong>Platforma:</strong> {d.get("platform","")}<br>
     <strong>Tip business:</strong> {d.get("business","")}<br>
     <strong>Pregatit de:</strong> Devrika Agency</div>
-    <div class="cover-logo-area"><div class="cover-logo-text">DEVRIKA AGENCY</div></div></div>
+    <div class="cover-logo-area">{LOGO}</div></div>
 </div>
 
 <div class="page page-inner">
@@ -152,7 +154,7 @@ def build(d):
 </div>
 
 <script>(function(){{var c=document.getElementById('gaugeChart');if(!c)return;var sc={s["global"]},f=sc/100;
-new Chart(c,{{type:'doughnut',data:{{datasets:[{{data:[f,1-f],backgroundColor:['#E07B00','rgba(255,255,255,0.08)'],borderWidth:0,circumference:270,rotation:225}}]}},
+new Chart(c,{{type:'doughnut',data:{{datasets:[{{data:[f,1-f],backgroundColor:['#0ABECF','rgba(255,255,255,0.08)'],borderWidth:0,circumference:270,rotation:225}}]}},
 options:{{responsive:true,maintainAspectRatio:true,cutout:'72%',plugins:{{legend:{{display:false}},tooltip:{{enabled:false}}}},animation:{{duration:0}}}}}});}})();</script>
 </body></html>'''
     return html
