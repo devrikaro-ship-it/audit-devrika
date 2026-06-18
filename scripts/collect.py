@@ -191,7 +191,8 @@ def main():
     broken = []
     for l in internal[::max(1, len(internal) // 12)][:12]:
         c = status(l)
-        if isinstance(c, int) and c >= 400:
+        # broken real = 404/410/5xx. 401/403/429 = auth/throttle, NU link mort.
+        if isinstance(c, int) and (c in (404, 410) or c >= 500):
             broken.append(f"{c} {l}")
     print("Broken (din esantion):", "; ".join(broken) if broken else "0 (esantion curat)")
     print()
