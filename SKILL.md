@@ -56,9 +56,9 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
    - design **vizual, putin text**: findings = carduri cu `{sev, title, impact, tag, effort}` — titlu scurt + O singura linie de impact (nu paragrafe)
    - `scores`: doar `{global, seo, ads}`; culori auto (rosu <40, portocaliu 40-69, verde 70+)
    - carduri = **un singur rand, mari** (badge severitate + titlu 12pt + impact 10pt 2-3 randuri + tag), ca pasii din plan; se spatiaza automat sa umple pagina A4
-   - **limita stricta ca sa NU dea overflow** (pagini taiate/goale): **costs max 4, seo_findings max 5, ads_findings max 4**; impact max ~3 randuri. Daca pui mai multe / text prea lung → cardul se taie peste footer
+   - standard: **5 carduri pe fiecare pagina** (costs 5, seo_findings 5, ads_findings 5), impact 2-3 randuri. **Limita stricta anti-overflow: NU depasi 5 + impact max 3 randuri** — altfel cardul se taie peste footer
    - sectiuni separate clar prin chip colorat in header (REZUMAT/SEO/GOOGLE ADS/PLAN) + intro scurt 1 rand
-   - Ads include MEREU: banda `track_signals` (pixeli DA/NU, vizual) + `ads_verdict` (CSS din research) + cardul de segmentare
+   - Ads: banda `track_signals` include statusul **Shopping/CSS ca prim chip** (ex. "Ruleaza Shopping (CSS TRUDA)" ok:true) — NU mai exista bloc verdict separat; pune CSS-ul in `ads_intro`. Include MEREU cardul de segmentare
    - cand poti, baga **un numar estimat de bani** (marcat estimativ) — vezi `references/framing.md` §Estimare bani
    ```
    python scripts/build.py date.json raport.html

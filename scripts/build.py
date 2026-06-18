@@ -145,8 +145,7 @@ def build(d):
 <div class="page page-inner">
   {phead("Google Ads &amp; Shopping", sub, "GOOGLE ADS", "ads", d.get("ads_intro", "Ce masori, pe ce CSS rulezi in Shopping si unde se pierde buget."))}
   <div class="pfill">
-    {tech_chips(d.get("track_signals", []), "Ce masori acum (tracking &amp; pixeli)")}
-    {verdict_block}
+    {tech_chips(d.get("track_signals", []), "Ce masori acum (tracking, pixeli, Shopping)")}
     <div class="section-title">Bani lasati pe masa</div>
     {cards(d.get("ads_findings", []), grow=True)}
   </div>
