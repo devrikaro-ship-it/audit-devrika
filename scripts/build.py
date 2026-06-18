@@ -21,7 +21,7 @@ def footer(p):
     return (f'<div class="page-footer"><span class="footer-text">Confidential — Devrika Agency · devrika.ro</span>'
             f'<span class="footer-page">Pagina {p}</span></div>')
 
-def cards(arr):
+def cards(arr, grow=False):
     out = ""
     for f in arr:
         sev = f.get("sev", "medium")
@@ -31,7 +31,7 @@ def cards(arr):
                 f'<span class="fcard-title">{f["title"]}</span></div>'
                 f'<div class="fcard-impact">{f.get("impact","")}</div>'
                 f'<div class="fcard-foot">{tag}{eff}</div></div>')
-    return f'<div class="cards">{out}</div>'
+    return f'<div class="cards{" grow" if grow else ""}">{out}</div>'
 
 def tech_chips(arr):
     if not arr:
@@ -46,7 +46,7 @@ def tech_chips(arr):
     return ('<div class="section-title">Semnale tehnice verificate</div>'
             f'<div style="display:flex;flex-wrap:wrap;margin-bottom:3mm">{chips}</div>')
 
-def steps(arr):
+def steps(arr, grow=False):
     out = ""
     for i, a in enumerate(arr):
         zone = a.get("zone", "SEO"); zcls = "ads" if "ad" in zone.lower() else "seo"
@@ -54,7 +54,7 @@ def steps(arr):
                 f'<div class="step-body"><div class="step-title">{a["title"]}</div>'
                 f'<div class="step-sub">{a.get("sub","")}</div></div>'
                 f'<span class="step-zone {zcls}">{zone}</span></div>')
-    return f'<div class="steps">{out}</div>'
+    return f'<div class="steps{" grow" if grow else ""}">{out}</div>'
 
 def build(d):
     s = d["scores"]
@@ -100,45 +100,53 @@ def build(d):
 
 <div class="page page-inner">
   <div class="page-header"><div class="page-section-label">Ce am gasit pe scurt</div><div class="page-logo-sm">{sub}</div></div>
-  <div class="callout"><strong>Pe scurt:</strong> {d.get("summary","")}</div>
-  <div class="hero-stats">
-    <div class="hero-stat bad"><div class="hero-stat-num">{d.get("n_probleme","")}</div>
-      <div class="hero-stat-txt">probleme care iti scad vizibilitatea si vanzarile</div></div>
-    <div class="hero-stat good"><div class="hero-stat-num">{d.get("n_oportunitati","")}</div>
-      <div class="hero-stat-txt">oportunitati de crestere, gata de pornit</div></div>
+  <div class="pfill">
+    <div class="callout"><strong>Pe scurt:</strong> {d.get("summary","")}</div>
+    <div class="hero-stats">
+      <div class="hero-stat bad"><div class="hero-stat-num">{d.get("n_probleme","")}</div>
+        <div class="hero-stat-txt">probleme care iti scad vizibilitatea si vanzarile</div></div>
+      <div class="hero-stat good"><div class="hero-stat-num">{d.get("n_oportunitati","")}</div>
+        <div class="hero-stat-txt">oportunitati de crestere, gata de pornit</div></div>
+    </div>
+    <div class="section-title">Ce te costa acum</div>
+    {cards(d.get("costs", []), grow=True)}
+    <div class="section-title">Castiguri rapide (sub 1 zi)</div>
+    {cards(d.get("wins", []), grow=True)}
   </div>
-  <div class="section-title">Ce te costa acum</div>
-  {cards(d.get("costs", []))}
-  <div class="section-title">Castiguri rapide (sub 1 zi)</div>
-  {cards(d.get("wins", []))}
   {footer(2)}
 </div>
 
 <div class="page page-inner">
   <div class="page-header"><div class="page-section-label">Cum te gasesc clientii (SEO)</div><div class="page-logo-sm">{sub}</div></div>
-  {tech_chips(d.get("tech_signals", []))}
-  <div class="section-title">Ce te tine pe loc</div>
-  {cards(d.get("seo_findings", []))}
+  <div class="pfill">
+    {tech_chips(d.get("tech_signals", []))}
+    <div class="section-title">Ce te tine pe loc</div>
+    {cards(d.get("seo_findings", []), grow=True)}
+  </div>
   {footer(3)}
 </div>
 
 <div class="page page-inner">
   <div class="page-header"><div class="page-section-label">Google Ads &amp; Shopping</div><div class="page-logo-sm">{sub}</div></div>
-  {verdict_block}
-  <div class="section-title">Bani lasati pe masa</div>
-  {cards(d.get("ads_findings", []))}
+  <div class="pfill">
+    {verdict_block}
+    <div class="section-title">Bani lasati pe masa</div>
+    {cards(d.get("ads_findings", []), grow=True)}
+  </div>
   {footer(4)}
 </div>
 
 <div class="page page-inner">
   <div class="page-header"><div class="page-section-label">Ce facem mai departe</div><div class="page-logo-sm">{sub}</div></div>
-  {f'<div class="callout">{d["plan_intro"]}</div>' if d.get("plan_intro") else ""}
-  <div class="section-title">Plan prioritizat</div>
-  {steps(d.get("plan", []))}
-  <div class="cta"><h3>{cta.get("title","Vrei sa rezolvam asta pentru tine?")}</h3>
-    <p>{cta.get("text","Echipa Devrika poate implementa tot planul de mai sus. Prima discutie e gratuita.")}</p>
-    <span class="cta-btn">{cta.get("btn","Programeaza o discutie gratuita")}</span>
-    <div class="cta-contact">{cta.get("contact","<strong>devrika.ro</strong> · contact@devrika.ro")}</div></div>
+  <div class="pfill">
+    {f'<div class="callout">{d["plan_intro"]}</div>' if d.get("plan_intro") else ""}
+    <div class="section-title">Plan prioritizat</div>
+    {steps(d.get("plan", []), grow=True)}
+    <div class="cta"><h3>{cta.get("title","Vrei sa rezolvam asta pentru tine?")}</h3>
+      <p>{cta.get("text","Echipa Devrika poate implementa tot planul de mai sus. Prima discutie e gratuita.")}</p>
+      <span class="cta-btn">{cta.get("btn","Programeaza o discutie gratuita")}</span>
+      <div class="cta-contact">{cta.get("contact","<strong>devrika.ro</strong> · contact@devrika.ro")}</div></div>
+  </div>
   {footer(5)}
 </div>
 
