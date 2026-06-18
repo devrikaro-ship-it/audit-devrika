@@ -66,10 +66,10 @@ def tech_chips(arr):
         ok = c.get("ok", True)
         col = "#1A7A4A" if ok else "#C0392B"
         mark = "&#10003;" if ok else "&#10007;"
-        chips += (f'<span class="chip" style="margin:0 2mm 2mm 0"><span style="color:{col};font-weight:700">{mark}</span> '
-                  f'{c["label"]}</span>')
+        chips += (f'<span class="chip" style="margin:0 1.5mm 1.5mm 0;padding:1mm 2.5mm;font-size:6.5pt">'
+                  f'<span style="color:{col};font-weight:700">{mark}</span> {c["label"]}</span>')
     return ('<div class="section-title">Semnale tehnice verificate</div>'
-            f'<div style="display:flex;flex-wrap:wrap">{chips}</div>')
+            f'<div style="display:flex;flex-wrap:wrap;margin-bottom:2mm">{chips}</div>')
 
 def plan_rows(arr):
     out = ""
