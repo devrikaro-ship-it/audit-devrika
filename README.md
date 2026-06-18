@@ -11,11 +11,16 @@ Genereaza un **raport PDF de audit (SEO + Google Ads/Shopping)** branduit Devrik
 - PDF profesionist generat din HTML via Chrome headless
 
 ## Instalare
+macOS / Linux:
 ```bash
 git clone https://github.com/devrikaro-ship-it/audit-devrika.git ~/.claude/skills/audit-devrika
 ```
+Windows (PowerShell):
+```powershell
+git clone https://github.com/devrikaro-ship-it/audit-devrika.git "$env:USERPROFILE\.claude\skills\audit-devrika"
+```
 Reporneste Claude Code → apare `/audit-devrika`. Repo public, nu necesita acces.
-Necesita: **Google Chrome** instalat, `curl`, `python3` (doar stdlib). Fara chei API.
+Necesita doar: **Google Chrome** + **Python 3** (stdlib). Scripturile-s cross-platform (**Windows / macOS / Linux**). Fara chei API, fara pip install.
 
 ## Folosire
 In Claude Code:
@@ -31,8 +36,8 @@ PDF-ul iese in `seo-audits/{client}/`.
 audit-devrika/
 ├── SKILL.md                 # orchestrare (cititul de Claude)
 ├── scripts/
-│   ├── collect.sh           # aduna semnale SEO + Ads din URL
-│   └── html_to_pdf.sh       # HTML -> PDF (Chrome headless)
+│   ├── collect.py           # aduna semnale SEO + Ads din URL (cross-platform)
+│   └── html_to_pdf.py       # HTML -> PDF (Chrome headless, cross-platform)
 ├── assets/
 │   └── template.html        # template brand Devrika (tokens {{...}})
 └── references/

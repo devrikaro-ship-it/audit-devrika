@@ -1,0 +1,245 @@
+#!/usr/bin/env python3
+"""Aduna semnale SEO + Google Ads/Shopping dintr-un URL public (fara cont, fara chei).
+Cross-platform: Windows, macOS, Linux. Doar stdlib.
+Usage: python collect.py https://domeniu.ro
+"""
+import sys, re, ssl, time, json, html as ihtml
+import urllib.request, urllib.error
+
+UA = "Mozilla/5.0 (compatible; DevrikaAudit/1.0; +https://devrika.ro)"
+TIMEOUT = 25
+
+_ctx = ssl.create_default_context()
+_ctx_insecure = ssl._create_unverified_context()
+
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, *a, **k): return None
+
+def _open(url, no_redirect=False, timeout=TIMEOUT):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    last = None
+    for ctx in (_ctx, _ctx_insecure):
+        handlers = [urllib.request.HTTPSHandler(context=ctx)]
+        if no_redirect:
+            handlers.append(_NoRedirect)
+        try:
+            return urllib.request.build_opener(*handlers).open(req, timeout=timeout)
+        except urllib.error.HTTPError:
+            raise  # status real (403/404...) — nu retry, lasa apelantul sa-l prinda
+        except (ssl.SSLError, urllib.error.URLError) as e:
+            last = e  # cert verify fail etc. -> incearca contextul insecure
+            continue
+    raise last if last else RuntimeError("open failed")
+
+def fetch(url, retries=1):
+    for attempt in range(retries + 1):
+        try:
+            r = _open(url)
+            body = r.read().decode("utf-8", "ignore")
+            if body:
+                return body
+        except Exception:
+            pass
+        if attempt < retries:
+            time.sleep(1.5)  # rate-limit burst -> pauza si reincearca
+    return ""
+
+def status(url):
+    try:
+        r = _open(url, no_redirect=True, timeout=15)
+        return getattr(r, "status", r.getcode())
+    except urllib.error.HTTPError as e:
+        return e.code
+    except Exception:
+        return "ERR"
+
+def ttfb(url):
+    try:
+        t0 = time.time()
+        r = _open(url)
+        r.read(1)
+        return round(time.time() - t0, 3)
+    except Exception:
+        return None
+
+def first(pat, h):
+    m = re.search(pat, h, re.I | re.S)
+    return ihtml.unescape(re.sub(r"\s+", " ", m.group(1)).strip())[:200] if m else "(lipsa)"
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit("usage: python collect.py https://domeniu.ro")
+    url = sys.argv[1].rstrip("/")
+    domain = re.sub(r"^https?://", "", url).split("/")[0]
+
+    print("================ DEVRIKA AUDIT — COLECTARE SEMNALE ================")
+    print("URL:", url); print("Domeniu:", domain)
+    print("Data:", time.strftime("%Y-%m-%d %H:%M")); print()
+
+    # ---------- HOMEPAGE ----------
+    h = fetch(url + "/")
+    hsize = len(h.encode("utf-8"))
+    print("===== HOMEPAGE =====")
+    print("HTML size:", hsize, "bytes")
+    if re.search(r"Just a moment|cf-mitigated|challenge-platform|Attention Required|_cf_chl|Enable JavaScript and cookies", h, re.I) or hsize < 2000:
+        print("!!! BLOCKER: site in spatele protectiei anti-bot (Cloudflare/challenge) sau pagina goala.")
+        print("!!! Crawler-ul nu primeste HTML real. Optiuni: ruleaza din browser (Playwright) sau cere acces.")
+        print("!!! NU genera audit pe datele de mai jos — sunt incomplete/false.")
+    print("Title:", first(r"<title[^>]*>(.*?)</title>", h))
+    print("Meta desc:", first(r'<meta[^>]+name=["\']description["\'][^>]+content=["\'](.*?)["\']', h))
+    h1 = re.findall(r"<h1[^>]*>(.*?)</h1>", h, re.I | re.S)
+    print("H1 count:", len(h1))
+    if h1: print("H1[0]:", ihtml.unescape(re.sub(r"<[^>]+>|\s+", " ", h1[0]).strip())[:160])
+    print("Canonical:", first(r'<link[^>]+rel=["\']canonical["\'][^>]+href=["\'](.*?)["\']', h))
+    print("Lang:", first(r'<html[^>]+lang=["\'](.*?)["\']', h))
+    imgs = re.findall(r"<img\b[^>]*>", h, re.I)
+    noalt = [i for i in imgs if not re.search(r'alt=["\'][^"\']+["\']', i)]
+    print(f"Imagini: {len(imgs)} | fara alt: {len(noalt)}")
+    fmt = {}
+    for m in re.findall(r"\.(jpg|jpeg|png|webp|avif)\b", h, re.I):
+        fmt[m.lower()] = fmt.get(m.lower(), 0) + 1
+    print("Formate img (sample):", fmt)
+    sch = re.findall(r'"@type"\s*:\s*"([^"]+)"', h)
+    print("Schema @type:", sorted(set(sch)) or "(niciun JSON-LD)")
+    print("OG image:", "DA" if re.search(r"og:image", h, re.I) else "NU")
+    print("Viewport meta:", "DA" if re.search(r'name=["\']viewport["\']', h, re.I) else "NU")
+    words = len(re.sub(r"<[^>]+>", " ", re.sub(r"(?is)<(script|style).*?</\1>", " ", h)).split())
+    print("Word count (vizibil aprox):", words)
+    plat = []
+    for sig, name in [("wp-content", "WordPress"), ("woocommerce", "WooCommerce"), ("cdn.shopify", "Shopify"),
+                      ("catalog/view", "OpenCart"), ("Journal3", "Journal3"), ("elementor", "Elementor"),
+                      ("PrestaShop", "PrestaShop"), ("Magento", "Magento"), ("rank-math", "Rank Math"),
+                      ("yoast", "Yoast"), ("wix.com", "Wix")]:
+        if re.search(re.escape(sig), h, re.I): plat.append(name)
+    print("Platforma/stack:", ", ".join(dict.fromkeys(plat)) or "necunoscut")
+    print()
+
+    # ---------- HTTPS / REDIRECT ----------
+    print("===== HTTPS / REDIRECT =====")
+    print(f"https://{domain} -> {status('https://' + domain)}")
+    print(f"http://{domain}  -> {status('http://' + domain)}  (asteptat 301 -> https)")
+    print(f"www.{domain}     -> {status('https://www.' + domain)}  (verifica redirect non-www vs duplicat 200)")
+    print()
+
+    # ---------- VITEZA ----------
+    print("===== VITEZA SERVER (TTFB, masurat) =====")
+    t = ttfb(url + "/"); kb = hsize // 1024
+    print(f"TTFB homepage: {t}s | HTML homepage: {kb} KB" if t is not None else "TTFB: nemasurat")
+    if t is not None:
+        print("  -> LENT (>1s): server greu, semnal rosu" if t > 1.0 else "  -> mediu (0.5-1s): de imbunatatit" if t > 0.5 else "  -> ok (<0.5s)")
+    print("  -> HTML f. greu (>800KB): risc LCP mobil" if kb > 800 else "  -> HTML greu (>300KB)" if kb > 300 else "  -> HTML ok")
+    print()
+
+    # ---------- ROBOTS ----------
+    print("===== ROBOTS.TXT =====")
+    robots = fetch(url + "/robots.txt")
+    if robots.strip():
+        sm = [l.split(":", 1)[1].strip() for l in robots.splitlines() if l.lower().startswith("sitemap:")]
+        print("Sitemap declarat:", " | ".join(sm[:3]) or "(niciunul)")
+        print("AI bots:")
+        for b in ["GPTBot", "ClaudeBot", "PerplexityBot", "Google-Extended", "anthropic-ai"]:
+            print(f"  {b}: {'mentionat' if re.search(b, robots, re.I) else 'nemention (default Allow)'}")
+        print("Disallow count:", len(re.findall(r"(?im)^disallow:", robots)))
+    else:
+        print("robots.txt: LIPSA sau gol")
+    print(f"llms.txt: {status(url + '/llms.txt')} (200 = exista)")
+    print()
+
+    # ---------- SITEMAP ----------
+    print("===== SITEMAP =====")
+    smap_url = (sm[0] if robots.strip() and sm else url + "/sitemap_index.xml")
+    smap = fetch(smap_url)
+    sub_sitemaps = []
+    simple_locs = []
+    if re.search(r"<sitemapindex", smap, re.I):
+        print("Tip: sitemap index (" + smap_url + ")")
+        for loc in re.findall(r"<loc>([^<]+)</loc>", smap)[:20]:
+            n = len(re.findall(r"<loc>", fetch(loc)))
+            print(f"  {loc.rsplit('/', 1)[-1]}: {n} url-uri")
+            sub_sitemaps.append(loc)
+    elif re.search(r"<urlset", smap, re.I):
+        simple_locs = re.findall(r"<loc>([^<]+)</loc>", smap)
+        print("Tip: sitemap simplu —", len(simple_locs), "url-uri")
+    else:
+        print("Sitemap: negasit la", smap_url)
+    print()
+
+    # ---------- GOOGLE ADS / SHOPPING ----------
+    print("===== GOOGLE ADS / SHOPPING — semnale oportunitate =====")
+    ecom = bool(re.search(r"add-to-cart|/cart|/product|/cos|adauga in cos|woocommerce|shopify|/shop|/magazin|priceCurrency", h, re.I))
+    print("E-commerce detectat:", "DA" if ecom else "NU")
+    print("Review/AggregateRating in schema:", "DA" if re.search(r'AggregateRating|"Review"', h) else "NU pe homepage")
+    print("Feed produse posibil (verificat HTTP):")
+    for f in ["/feed", "/product-feed", "/feed.xml", "/wp-content/uploads/woo-feed",
+              "/index.php?route=extension/feed/google_sitemap", "/googlebase.xml", "/feed/google",
+              "/products.json", "/sitemap_products_1.xml", "/collections/all.atom"]:
+        if status(url + f) == 200:
+            print(f"  {f} -> 200")
+    print("GMC/Shopping nota: ID Merchant Center si datele din cont NU sunt publice — raporteaza 'de verificat' + oportunitate.")
+    print(f"Ads Transparency (competitie): https://adstransparency.google.com/?region=RO&query={domain}")
+    print(f"Meta Ad Library (competitie): https://www.facebook.com/ads/library/?q={domain}")
+    print("CSS Google Shopping: ruleaza Playwright pe cautare normala -> 'Produse sponsorizate' -> 'De la X' (vezi references/google-ads-research.md)")
+    print()
+
+    # ---------- SAMPLE PRODUCT ----------
+    if ecom:
+        print("===== SAMPLE PAGINA PRODUS =====")
+        psm = next((s for s in sub_sitemaps if re.search(r"product|produs", s, re.I)), "")
+        prod = ""
+        locs = []
+        skip = re.compile(r"/(category|categorie|product_cat|collections?|magazin|shop|store|catalog|cont|account|cos|cart|blog|info|despre|contact|termeni|politica|login|register)(/|$|\?)", re.I)
+        if psm:
+            locs = [l for l in re.findall(r"<loc>([^<]+)</loc>", fetch(psm)) if not skip.search(l)]
+        elif simple_locs:
+            # sitemap simplu (un fisier) — produsele = url-uri adanci cu id numeric (ex: /cat/brand/12345-slug/)
+            locs = [l for l in simple_locs if re.search(r"/\d{3,}-", l) and not skip.search(l)]
+            if not locs:
+                locs = [l for l in simple_locs if l.rstrip("/").count("/") >= 4 and not skip.search(l)]
+        prod = locs[0] if locs else ""
+        if not prod:
+            m = re.search(re.escape(url) + r"/(produs|product|p)/[a-z0-9-]{6,}/?", h)
+            prod = m.group(0) if m else ""
+        if prod:
+            print("URL probat:", prod)
+            # intai produsul (cel mai important) — inainte ca throttling-ul din esantionul de stoc sa apuce
+            ph = fetch(prod)
+            print("Product schema:", "DA" if re.search(r'"@type"\s*:\s*"Product"', ph) else "NU")
+            pm = re.search(r'"price"\s*:\s*"?([\d.,]+)', ph)
+            print("Pret schema:", pm.group(1) if pm else "(lipsa)")
+            am = re.search(r'availability[^>]*?(InStock|OutOfStock|PreOrder|in_stock|out_of_stock)', ph, re.I)
+            print("Availability:", am.group(1) if am else "(lipsa)")
+            print("AggregateRating:", "DA" if re.search(r"AggregateRating", ph) else "NU (fara stele in SERP/Shopping)")
+            # apoi esantion stoc (delay mic ca sa nu fim throttle-uiti)
+            if locs:
+                oos = tot = 0
+                sample = [u for i, u in enumerate(locs) if i % 9 == 3][:12]
+                for u in sample:
+                    pg = fetch(u)
+                    av = re.search(r"(InStock|OutOfStock|in_stock|out_of_stock)", pg, re.I)
+                    if not av: continue
+                    tot += 1
+                    if re.search(r"out", av.group(1), re.I): oos += 1
+                    time.sleep(0.3)
+                print(f"Stoc (estimat, esantion {tot} produse cu date): {oos} OutOfStock ({oos*100//tot if tot else 0}%)" if tot else "Stoc: nu am putut esantiona (verifica manual)")
+        else:
+            print("Nu am putut extrage un URL de produs.")
+        print()
+
+    # ---------- PSI ----------
+    print("===== PERFORMANTA (PageSpeed, best-effort fara cheie) =====")
+    psi = fetch(f"https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url={url}&strategy=mobile")
+    try:
+        d = json.loads(psi); lh = d.get("lighthouseResult", {})
+        perf = lh.get("categories", {}).get("performance", {}).get("score")
+        print("Performance score (lab):", round(perf * 100) if perf is not None else "n/a")
+        for k, lbl in [("largest-contentful-paint", "LCP"), ("cumulative-layout-shift", "CLS"),
+                       ("total-blocking-time", "TBT"), ("speed-index", "Speed Index")]:
+            v = lh.get("audits", {}).get(k, {}).get("displayValue")
+            if v: print(f"{lbl}: {v}")
+    except Exception:
+        print("PSI indisponibil (rate-limit fara cheie sau eroare). CWV: de masurat manual.")
+    print()
+    print("================ FINAL COLECTARE ================")
+
+if __name__ == "__main__":
+    main()

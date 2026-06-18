@@ -26,7 +26,7 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
 
 1. **Colecteaza semnale**
    ```
-   bash scripts/collect.sh https://domeniul-clientului.ro
+   python scripts/collect.py https://domeniul-clientului.ro
    ```
    Aduna: title/meta/H1, robots+sitemap, schema, HTTPS/www, e-commerce, feed/Shopping, viteza (PSI best-effort), competitie Ads. Citeste tot output-ul.
    **Daca apare `!!! BLOCKER` (Cloudflare/anti-bot):** crawler-ul e blocat, datele sunt false. NU genera audit pe ele. Fallback: ia paginile prin browser (Playwright MCP: `browser_navigate` + `browser_evaluate` ca sa scoti HTML real), apoi continua. Daca nici asa nu merge, spune userului ca site-ul blocheaza crawl si cere alta metoda.
@@ -54,7 +54,7 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
 
 5. **Genereaza PDF**
    ```
-   bash scripts/html_to_pdf.sh raport.html "Audit-Devrika-{client}.pdf"
+   python scripts/html_to_pdf.py raport.html "Audit-Devrika-{client}.pdf"
    ```
 
 6. **Salveaza** in `seo-audits/{client}/` (creeaza dosarul). Pastreaza si HTML-ul (pt editari ulterioare).
@@ -67,6 +67,7 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
 5. **Plan + CTA Devrika**
 
 ## Note
-- Chart.js se randeaza in headless prin `--virtual-time-budget` (deja in `html_to_pdf.sh`). Nu schimba.
+- Chart.js se randeaza in headless prin `--virtual-time-budget` (deja in `html_to_pdf.py`). Nu schimba.
+- Scripturile sunt Python (cross-platform: Windows/Mac/Linux), fara dependinte. Ruleaza cu `python` sau `python3`.
 - Daca PSI e rate-limited fara cheie, scrie "viteza de masurat" — nu inventa cifre.
 - Model proven de la care a pornit template-ul: `seo-audits/sndeco/`.
