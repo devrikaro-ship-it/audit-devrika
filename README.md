@@ -43,9 +43,8 @@ audit-devrika/
 │   ├── build.py             # JSON date -> HTML raport (randuri variabile)
 │   └── html_to_pdf.py       # HTML -> PDF (Chrome headless, cross-platform)
 ├── assets/
-│   ├── styles.css           # CSS brand Devrika (sursa unica)
-│   ├── example.json         # exemplu date raport (vegis.ro)
-│   └── template.html        # fallback manual (tokens {{...}})
+│   ├── styles.css           # CSS brand Devrika (design vizual)
+│   └── example.json         # schema + exemplu date raport (vegis.ro)
 └── references/
     ├── framing.md           # ton lead-gen, traduceri tehnic->client
     ├── scoring.md           # cum dai scorurile 0-100

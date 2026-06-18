@@ -5,74 +5,68 @@
   "platform": "OpenCart (magazin online)",
   "business": "Magazin naturist — suplimente, cosmetice, alimente bio",
   "logo_sm": "vegis.ro · Audit Devrika · Iunie 2026",
-  "scores": { "global": 65, "seo": 68, "content": 66, "ads": 64, "speed": 62, "schema": 66 },
-  "summary": "Ai un magazin mare si serios — peste 28.000 de produse, pagini de categorie cu text bun si fise de produs foarte bine puse la punct (pret, livrare, retur). Practic esti <strong>aproape gata pentru Google Shopping</strong>. Te tin pe loc cateva lucruri reparabile: prima pagina nu are titlu principal (H1), produsele nu au stelute de recenzii, iar harta site-ului e intr-un singur fisier urias. Reparate, vizibilitatea poate trece de la <strong>65</strong> la <strong>80+</strong>.",
+  "scores": { "global": 66, "seo": 68, "ads": 64 },
+  "summary": "Fundatia e serioasa si rulezi deja in Google Shopping pe un CSS. Te tin pe loc cateva lucruri reparabile: prima pagina nu are titlu principal (H1), iar bugetul de Shopping nu e separat pe performanta. Reparate, vizibilitatea poate trece de la 66 la 80+.",
+  "n_probleme": "5",
+  "n_oportunitati": "4",
+
   "costs": [
-    "Prima pagina nu are titlu principal (H1) si nici eticheta canonical — Google nu intelege clar despre ce e site-ul.",
-    "Produsele nu apar in Google cu stelute de recenzii — clientul are mai putina incredere si cumpara de la altul.",
-    "Esti aproape invizibil in Google Shopping pe produse care nu vand profitabil — buget irosit.",
-    "Harta site-ului e un singur fisier de 28.000+ pagini — Google le parcurge greu.",
-    "Imaginile sunt grele (JPG/PNG, nu format modern) — site-ul se incarca mai greu pe telefon."
+    { "sev": "critical", "title": "Prima pagina fara titlu principal (H1)", "impact": "Google nu intelege clar despre ce e site-ul.", "tag": "SEO" },
+    { "sev": "high", "title": "Buget Shopping neseparated pe performanta", "impact": "Platesti si pe produse care nu vand niciodata.", "tag": "Ads" },
+    { "sev": "high", "title": "Sitemap urias intr-un singur fisier", "impact": "Produsele noi se indexeaza incet in Google.", "tag": "SEO" },
+    { "sev": "medium", "title": "Imagini grele, fara format modern", "impact": "Site-ul se incarca greu pe telefon.", "tag": "Viteza" }
   ],
   "wins": [
-    "Adauga un titlu principal (H1) si eticheta canonical pe prima pagina.",
-    "Activeaza recenziile pe produse — apar stelute in Google si in Shopping.",
-    "Completeaza descrierile lipsa la 6 imagini de pe prima pagina.",
-    "Adauga fisierul llms.txt — te pregateste pentru raspunsurile din Google AI si ChatGPT.",
-    "Adauga datele de firma (Organization) pe prima pagina pentru Google."
+    { "sev": "low", "title": "Adauga H1 + canonical pe homepage", "impact": "30 min, recuperezi cel mai puternic semnal SEO.", "tag": "30 min" },
+    { "sev": "low", "title": "Segmenteaza produsele in Shopping", "impact": "Bugetul merge pe ce vinde, nu pe tot catalogul.", "tag": "Setup" },
+    { "sev": "low", "title": "Converteste imaginile in WebP", "impact": "Pagina se incarca vizibil mai rapid pe mobil.", "tag": "3h" },
+    { "sev": "low", "title": "Adauga fisierul llms.txt", "impact": "Pregatit pentru raspunsurile Google AI / ChatGPT.", "tag": "30 min" }
   ],
-  "score_table": [
-    { "name": "SEO Tehnic", "score": 68, "problem": "Canonical lipsa pe homepage, sitemap urias" },
-    { "name": "Continut", "score": 66, "problem": "Homepage fara H1, zero recenzii produse" },
-    { "name": "Google Ads / Shopping", "score": 64, "problem": "Catalog gata de Shopping, dar fara stele si segmentare" },
-    { "name": "Viteza &amp; Mobil", "score": 62, "problem": "Pagini grele, imagini fara format modern" },
-    { "name": "Schema / Rich results", "score": 66, "problem": "Fise produs excelente, dar lipsesc stelele" }
-  ],
-  "speed_note": "<strong>Nota:</strong> Viteza exacta pe mobil nu a putut fi masurata automat la momentul auditului. O confirmam la prima discutie cu o masuratoare completa.",
-  "seo_intro": "Vestea buna: fundatia e serioasa. Site-ul merge pe HTTPS, redirectarile sunt corecte, paginile de categorie au text bogat (3.000+ cuvinte), iar fisele de produs sunt foarte bine structurate. Mai jos — ce te tine sub potential.",
+
   "tech_signals": [
     { "label": "HTTPS + redirects", "ok": true },
     { "label": "Sitemap + robots", "ok": true },
-    { "label": "Schema produs (pret/stoc)", "ok": true },
+    { "label": "Schema produs", "ok": true },
+    { "label": "Ruleaza Google Shopping", "ok": true },
     { "label": "H1 pe homepage", "ok": false },
     { "label": "Canonical homepage", "ok": false },
-    { "label": "Security headers (HSTS/CSP)", "ok": false },
-    { "label": "Recenzii / stele produs", "ok": false },
-    { "label": "Imagini format modern (WebP)", "ok": false },
+    { "label": "Security headers", "ok": false },
+    { "label": "Imagini WebP", "ok": false },
     { "label": "llms.txt (AI-ready)", "ok": false },
     { "label": "Broken links", "ok": true }
   ],
+
   "seo_findings": [
-    { "sev": "critical", "sev_label": "Grav", "title": "Prima pagina nu are titlu principal (H1) si nici canonical", "desc": "Pe homepage am gasit 0 etichete H1 si lipseste eticheta canonical.", "meaning": "Google nu intelege clar tema paginii principale — cea mai importanta pagina porneste cu un handicap.", "area": "On-Page", "effort": "30 min", "effort_level": "low" },
-    { "sev": "high", "sev_label": "Important", "title": "Produsele nu au recenzii / stelute", "desc": "Lipsa AggregateRating in datele structurate ale produselor.", "meaning": "Apari fara stele, in timp ce competitorii cu recenzii apar cu 4-5 stelute. Lumea da click pe ei.", "area": "Incredere / CTR", "effort": "3h setup", "effort_level": "medium" },
-    { "sev": "high", "sev_label": "Important", "title": "Sitemap intr-un singur fisier de 28.521 pagini", "desc": "Sitemap monolitic, neimpartit pe categorii/produse.", "meaning": "Google parcurge greu un magazin asa mare — produsele noi se indexeaza incet.", "area": "Indexare", "effort": "2–3h", "effort_level": "medium" },
-    { "sev": "medium", "sev_label": "De rezolvat", "title": "Imagini grele (JPG/PNG) + 6 imagini fara descriere", "desc": "Lipsa format modern (WebP); 6 imagini fara text alternativ pe homepage.", "meaning": "Pagina se incarca mai greu pe telefon si pierzi trafic din cautarea de imagini.", "area": "Viteza / Imagini", "effort": "3h", "effort_level": "medium" },
-    { "sev": "low", "sev_label": "Igiena", "title": "Security headers + llms.txt + date firma lipsa", "desc": "Lipsesc HSTS/CSP din raspunsul serverului; llms.txt 404; pe homepage doar BreadcrumbList (fara Organization).", "meaning": "Protectii de securitate standard lipsa + mai putin pregatit pentru Google AI / ChatGPT si pentru brand in Google. Reparatii rapide.", "area": "Securitate / AI", "effort": "1h", "effort_level": "low" }
+    { "sev": "critical", "title": "Homepage fara H1 si canonical", "impact": "Cea mai importanta pagina porneste cu un handicap in Google.", "tag": "On-Page", "effort": "30 min" },
+    { "sev": "high", "title": "Sitemap intr-un fisier de 28.521 pagini", "impact": "Google parcurge greu; produsele noi se indexeaza incet.", "tag": "Indexare", "effort": "2-3h" },
+    { "sev": "medium", "title": "Imagini grele, fara WebP", "impact": "Pagina lenta pe mobil — o parte din vizitatori pleaca.", "tag": "Viteza", "effort": "3h" },
+    { "sev": "low", "title": "Security headers + llms.txt lipsa", "impact": "Protectii standard lipsa + neoptim pentru Google AI.", "tag": "Securitate/AI", "effort": "1h" }
   ],
-  "seo_strengths": [
-    { "title": "Fise de produs foarte complete", "why": "Pret, disponibilitate, livrare si retur in datele structurate — baza ideala pentru Google Shopping." },
-    { "title": "Categorii cu continut bogat", "why": "Peste 3.000 de cuvinte pe pagina de categorie verificata — Google are ce indexa." },
-    { "title": "Titlu si descriere optimizate", "why": "Prima pagina are titlu si meta descriere bune — pornesti corect in rezultate." }
-  ],
-  "ads_context": "Produsele tale apar deja in Google Shopping si rulezi pe un CSS (TRUDA), langa competitori ca Esteto, Spring Farma, Dr.Max. Baza e buna — problema nu e prezenta, ci cum cheltui bugetul.",
+
+  "ads_verdict": {
+    "ok": true,
+    "badge": "CSS: TRUDA",
+    "text": "Rulezi deja in Google Shopping pe un CSS (<strong>TRUDA</strong>) — bun, platesti mai putin pe click decat cei fara CSS. Dar CSS-ul singur nu opreste risipa de buget."
+  },
   "ads_findings": [
-    { "sev": "critical", "sev_label": "Mare", "title": "Lipsa segmentare produse — bugetul se arde pe produse care nu vand", "desc": "28.000+ produse in Shopping fara separare pe performanta (Heroes / Villains / Zombies). Bugetul se imparte ~egal pe tot catalogul.", "meaning": "Platesti click-uri si pe produsele care nu aduc nicio comanda. Cu etichetare pe performanta, banii merg pe ce vinde.", "area": "Buget irosit", "effort": "Setup", "effort_level": "medium" },
-    { "sev": "medium", "sev_label": "De optimizat", "title": "Rulezi pe CSS-ul TRUDA — bine, dar e doar jumatate din treaba", "desc": "Produsele apar cu 'De la TRUDA' — folosesti deja un CSS (CPC mai mic). Competitia e impartita: unii pe ProductHero, altii direct prin Google.", "meaning": "CSS-ul scade costul pe click, dar singur nu rezolva risipa. Fara segmentare, tot platesti pe produse care nu vand.", "area": "Deja activ", "effort": "—", "effort_level": "low" },
-    { "sev": "high", "sev_label": "Important", "title": "Activeaza recenziile = stelute in Shopping si Search", "desc": "Fara recenzii pe produse nu apar stelele de produs/vanzator.", "meaning": "Produsele cu stele primesc mai multe click-uri la acelasi buget. Acelasi ban, mai multe vanzari.", "area": "Rata de click", "effort": "3h", "effort_level": "medium" },
-    { "sev": "medium", "sev_label": "De verificat", "title": "Verificare Merchant Center (status feed, produse respinse)", "desc": "Datele din contul Merchant Center nu sunt publice — le verificam la prima discutie.", "meaning": "Produsele respinse din feed nu apar deloc in Shopping. Le reparam ca tot catalogul sa fie eligibil.", "area": "Eligibilitate", "effort": "1h", "effort_level": "low" }
+    { "sev": "critical", "title": "Lipsa segmentare produse", "impact": "Bugetul se duce egal pe tot catalogul, inclusiv pe produsele care nu vand (Villains / Zombies).", "tag": "Buget irosit", "effort": "Setup" },
+    { "sev": "high", "title": "Shopping nestructurat pe profitabilitate", "impact": "Cu 28.000+ produse, banii trebuie pe best-sellers cu marja buna.", "tag": "Profit", "effort": "Analiza" },
+    { "sev": "medium", "title": "Merchant Center de verificat", "impact": "Produsele respinse din feed nu apar deloc in Shopping.", "tag": "Eligibilitate", "effort": "1h" },
+    { "sev": "low", "title": "Competitia: Esteto pe ProductHero, Spring Farma direct", "impact": "Castiga cine isi separa produsele si structureaza, nu cine are CSS.", "tag": "Competitie", "effort": "—" }
   ],
-  "ads_competition": "In Shopping apar langa tine Esteto (ProductHero), Spring Farma (direct Google, fara CSS), Dr.Max. Diferenta nu o face CSS-ul, ci cine isi separa produsele pe performanta si are stele. Acolo recuperezi teren.",
-  "plan_intro": "<strong>Obiectiv 90 zile:</strong> de la <strong>65/100</strong> la <strong>80/100</strong> pe vizibilitate, plus un canal nou de vanzari prin Google Shopping. Primele actiuni aduc cele mai mari rezultate cu cel mai mic efort.",
+
+  "plan_intro": "<strong>Obiectiv 90 zile:</strong> de la 66 la 80+ pe vizibilitate, plus un Shopping care vinde pe profit, nu pe tot catalogul.",
   "plan": [
-    { "title": "H1 + canonical pe prima pagina", "sub": "Cel mai puternic semnal on-page, momentan lipsa", "zone": "SEO", "zone_sev": "critical", "effort": "30 min", "effort_level": "low", "impact": 4 },
-    { "title": "Activeaza recenzii pe produse", "sub": "Stelute in Google Search + Shopping", "zone": "SEO+Ads", "zone_sev": "high", "effort": "3h", "effort_level": "medium", "impact": 5 },
-    { "title": "Segmentare produse + campanie Shopping", "sub": "Heroes/Villains/Zombies; buget pe ce vinde", "zone": "Ads", "zone_sev": "high", "effort": "Setup", "effort_level": "medium", "impact": 5 },
-    { "title": "Sitemap impartit + imagini WebP", "sub": "Indexare mai buna + pagini mai rapide pe mobil", "zone": "Tehnic", "zone_sev": "medium", "effort": "4h", "effort_level": "medium", "impact": 3 },
-    { "title": "llms.txt + date firma + alt imagini", "sub": "Pregatire AI + brand in Google + curatenie", "zone": "SEO", "zone_sev": "low", "effort": "1h", "effort_level": "low", "impact": 2 }
+    { "title": "H1 + canonical pe prima pagina", "sub": "Cel mai puternic semnal on-page, momentan lipsa", "zone": "SEO" },
+    { "title": "Segmentare produse + campanie Shopping pe profit", "sub": "Heroes / Villains / Zombies — bugetul pe ce vinde", "zone": "Ads" },
+    { "title": "Sitemap impartit + imagini WebP", "sub": "Indexare mai buna + pagini mai rapide pe mobil", "zone": "SEO" },
+    { "title": "Verificare Merchant Center", "sub": "Recuperezi produsele respinse din feed", "zone": "Ads" },
+    { "title": "llms.txt + security headers", "sub": "Pregatire AI + protectii standard", "zone": "SEO" }
   ],
+
   "cta": {
     "title": "Vrei sa rezolvam asta pentru tine?",
-    "text": "Echipa Devrika poate implementa tot planul de mai sus — reparatii SEO, recenzii, Google Shopping si optimizare site — ca sa fii gasit si ales de clientii care te cauta deja. Prima discutie e gratuita.",
+    "text": "Echipa Devrika poate implementa tot planul de mai sus — SEO + Google Shopping — ca sa fii gasit si ales de clientii care te cauta deja. Prima discutie e gratuita.",
     "btn": "Programeaza o discutie gratuita",
     "contact": "<strong>devrika.ro</strong> · contact@devrika.ro"
   }

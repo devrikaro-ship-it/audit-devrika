@@ -45,29 +45,30 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
 
 3. **Scoreaza** (0-100 per categorie). Vezi `references/scoring.md`. Calculeaza scorul global ponderat.
 
-4. **Construieste raportul (recomandat: JSON → build.py)**
-   - scrie datele intr-un fisier JSON dupa schema din `assets/example.json` (date reale + framing din `references/framing.md`)
-   - culorile barelor de scor se calculeaza automat (rosu <40, portocaliu 40-69, verde 70+)
-   - findings: pune cate ai nevoie (5-9 SEO, 3-6 Ads). Ads include MEREU segmentare + CSS.
+4. **Construieste raportul (JSON → build.py)**
+   - scrie datele intr-un JSON dupa schema din `assets/example.json` (date reale + framing din `references/framing.md`)
+   - **doar SEO + Google Ads** (fara stoc, fara recenzii, fara merchandising)
+   - design **vizual, putin text**: findings = carduri cu `{sev, title, impact, tag, effort}` — titlu scurt + O singura linie de impact (nu paragrafe)
+   - `scores`: doar `{global, seo, ads}`; culori auto (rosu <40, portocaliu 40-69, verde 70+)
+   - **max ~4 carduri** per pagina (SEO findings, Ads findings) ca sa incapa pe A4 cu spatiu
+   - Ads include MEREU: `ads_verdict` (CSS din research) + cardul de segmentare
    ```
    python scripts/build.py date.json raport.html
    ```
-   Fallback manual: poti edita direct `assets/template.html` (tokens `{{...}}`) daca preferi.
 
 5. **Genereaza PDF**
    ```
    python scripts/html_to_pdf.py raport.html "Audit-Devrika-{client}.pdf"
    ```
-   (refuza daca au ramas tokens necompletate — la nevoie completeaza-le)
 
-6. **Salveaza** in `seo-audits/{client}/` (creeaza dosarul). Pastreaza si JSON-ul (pt editari ulterioare).
+6. **Salveaza** in `seo-audits/{client}/`. Pastreaza si JSON-ul.
 
-## Structura raport (5 pagini A4)
-1. **Coperta** — domeniu, scor global (gauge), 4 sub-scoruri
-2. **Ce am gasit pe scurt** — "ce te costa" vs "castiguri rapide", tabel scoruri
-3. **SEO** — probleme care ascund site-ul de clienti
-4. **Google Ads / Shopping** — bani lasati pe masa + ce face competitia
-5. **Plan + CTA Devrika**
+## Structura raport (5 pagini A4, vizual)
+1. **Coperta** — domeniu, gauge global + 2 scoruri mari (SEO, Google Ads) cu verdict
+2. **Ce am gasit pe scurt** — hero-stats (N probleme / M oportunitati) + carduri "ce te costa" / "castiguri rapide"
+3. **SEO** — chips semnale tehnice + carduri "ce te tine pe loc"
+4. **Google Ads / Shopping** — bloc verdict CSS + carduri "bani lasati pe masa"
+5. **Plan (pasi vizuali) + CTA Devrika**
 
 ## Note
 - Chart.js se randeaza in headless prin `--virtual-time-budget` (deja in `html_to_pdf.py`). Nu schimba.
