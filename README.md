@@ -37,12 +37,16 @@ audit-devrika/
 ├── SKILL.md                 # orchestrare (cititul de Claude)
 ├── scripts/
 │   ├── collect.py           # aduna semnale SEO + Ads din URL (cross-platform)
+│   ├── build.py             # JSON date -> HTML raport (randuri variabile)
 │   └── html_to_pdf.py       # HTML -> PDF (Chrome headless, cross-platform)
 ├── assets/
-│   └── template.html        # template brand Devrika (tokens {{...}})
+│   ├── styles.css           # CSS brand Devrika (sursa unica)
+│   ├── example.json         # exemplu date raport (vegis.ro)
+│   └── template.html        # fallback manual (tokens {{...}})
 └── references/
     ├── framing.md           # ton lead-gen, traduceri tehnic->client
-    └── scoring.md           # cum dai scorurile 0-100
+    ├── scoring.md           # cum dai scorurile 0-100
+    └── google-ads-research.md  # research CSS/Shopping via Playwright
 ```
 
 ## Note

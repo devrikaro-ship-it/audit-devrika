@@ -45,19 +45,22 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
 
 3. **Scoreaza** (0-100 per categorie). Vezi `references/scoring.md`. Calculeaza scorul global ponderat.
 
-4. **Construieste raportul**
-   - copiaza `assets/template.html` intr-un fisier de lucru
-   - inlocuieste TOATE `{{TOKEN}}`-urile (cauta `{{` ca sa nu ramana niciunul)
-   - culori bara scor: rosu `#C0392B` (<40), portocaliu `#D45B00` (40-69), verde `#1A7A4A` (70+)
-   - 5-9 findings SEO, 3-6 oportunitati Ads. Sterge randurile-exemplu nefolosite.
-   - framing: vezi `references/framing.md`
+4. **Construieste raportul (recomandat: JSON → build.py)**
+   - scrie datele intr-un fisier JSON dupa schema din `assets/example.json` (date reale + framing din `references/framing.md`)
+   - culorile barelor de scor se calculeaza automat (rosu <40, portocaliu 40-69, verde 70+)
+   - findings: pune cate ai nevoie (5-9 SEO, 3-6 Ads). Ads include MEREU segmentare + CSS.
+   ```
+   python scripts/build.py date.json raport.html
+   ```
+   Fallback manual: poti edita direct `assets/template.html` (tokens `{{...}}`) daca preferi.
 
 5. **Genereaza PDF**
    ```
    python scripts/html_to_pdf.py raport.html "Audit-Devrika-{client}.pdf"
    ```
+   (refuza daca au ramas tokens necompletate — la nevoie completeaza-le)
 
-6. **Salveaza** in `seo-audits/{client}/` (creeaza dosarul). Pastreaza si HTML-ul (pt editari ulterioare).
+6. **Salveaza** in `seo-audits/{client}/` (creeaza dosarul). Pastreaza si JSON-ul (pt editari ulterioare).
 
 ## Structura raport (5 pagini A4)
 1. **Coperta** — domeniu, scor global (gauge), 4 sub-scoruri
