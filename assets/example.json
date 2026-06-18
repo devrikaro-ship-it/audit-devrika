@@ -39,8 +39,10 @@
   "seo_findings": [
     { "sev": "critical", "title": "Homepage fara H1 si canonical", "impact": "Cea mai importanta pagina porneste cu un handicap in Google.", "tag": "On-Page", "effort": "30 min" },
     { "sev": "high", "title": "Sitemap intr-un fisier de 28.521 pagini", "impact": "Google parcurge greu; produsele noi se indexeaza incet.", "tag": "Indexare", "effort": "2-3h" },
-    { "sev": "medium", "title": "Imagini grele, fara WebP", "impact": "Pagina lenta pe mobil — o parte din vizitatori pleaca.", "tag": "Viteza", "effort": "3h" },
-    { "sev": "low", "title": "Security headers + llms.txt lipsa", "impact": "Protectii standard lipsa + neoptim pentru Google AI.", "tag": "Securitate/AI", "effort": "1h" }
+    { "sev": "high", "title": "Fara structura H2 pe pagini", "impact": "Google si motoarele AI inteleg mai greu despre ce e fiecare pagina.", "tag": "Structura", "effort": "1h" },
+    { "sev": "medium", "title": "Imagini grele, fara WebP (+6 fara descriere)", "impact": "Pagina lenta pe mobil — o parte din vizitatori pleaca.", "tag": "Viteza", "effort": "3h" },
+    { "sev": "medium", "title": "Security headers lipsa (HSTS, CSP)", "impact": "Protectiile standard de securitate nu sunt trimise de server.", "tag": "Securitate", "effort": "30 min" },
+    { "sev": "low", "title": "llms.txt lipsa + continut greu de citat de AI", "impact": "Propozitii lungi, fara FAQ — neoptim pentru Google AI / ChatGPT.", "tag": "AI / GEO", "effort": "1h" }
   ],
 
   "ads_verdict": {
@@ -51,7 +53,9 @@
   "ads_findings": [
     { "sev": "critical", "title": "Lipsa segmentare produse", "impact": "Bugetul se duce egal pe tot catalogul, inclusiv pe produsele care nu vand (Villains / Zombies).", "tag": "Buget irosit", "effort": "Setup" },
     { "sev": "high", "title": "Shopping nestructurat pe profitabilitate", "impact": "Cu 28.000+ produse, banii trebuie pe best-sellers cu marja buna.", "tag": "Profit", "effort": "Analiza" },
+    { "sev": "high", "title": "Titluri produs neoptimizate pentru Shopping", "impact": "Titluri slabe = mai putine afisari pe cautarile potrivite, CTR mic.", "tag": "Feed", "effort": "2h" },
     { "sev": "medium", "title": "Merchant Center de verificat", "impact": "Produsele respinse din feed nu apar deloc in Shopping.", "tag": "Eligibilitate", "effort": "1h" },
+    { "sev": "medium", "title": "Fara acoperire pe intentie (brand + competitori)", "impact": "Ratezi cererile calde ale celor care cauta exact ce vinzi.", "tag": "Acoperire", "effort": "Setup" },
     { "sev": "low", "title": "Competitia: Esteto pe ProductHero, Spring Farma direct", "impact": "Castiga cine isi separa produsele si structureaza, nu cine are CSS.", "tag": "Competitie", "effort": "—" }
   ],
 

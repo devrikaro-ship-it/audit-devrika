@@ -128,7 +128,7 @@ h1,h2,h3,h4,h5 { font-family:'Sora',sans-serif; }
 /* carduri findings (2 coloane, putin text) */
 .cards { display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-bottom:4mm; }
 .cards.grow { flex:1; grid-auto-rows:1fr; margin-bottom:0; }
-.fcard { border:1px solid var(--gray-200); border-radius:7px; padding:5mm 5mm 4mm 6mm; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+.fcard { border:1px solid var(--gray-200); border-radius:6px; padding:3.5mm 4mm 3mm 5mm; position:relative; overflow:hidden; display:flex; flex-direction:column; }
 .fcard-impact { flex:1; }
 .fcard::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
 .fcard.critical::before { background:var(--red); }
@@ -141,8 +141,9 @@ h1,h2,h3,h4,h5 { font-family:'Sora',sans-serif; }
 .fcard.high .fdot { background:var(--orange); }
 .fcard.medium .fdot { background:var(--yellow); }
 .fcard.low .fdot { background:var(--green); }
-.fcard-title { font-family:'Sora',sans-serif; font-weight:700; font-size:9.5pt; color:var(--navy); line-height:1.25; }
-.fcard-impact { font-size:8.5pt; color:var(--gray-600); line-height:1.5; }
+.fcard-title { font-family:'Sora',sans-serif; font-weight:700; font-size:8.5pt; color:var(--navy); line-height:1.25; }
+.fcard-impact { font-size:7.5pt; color:var(--gray-600); line-height:1.45; }
+.fcard-foot { margin-top:2mm; }
 .fcard-foot { margin-top:2.5mm; display:flex; justify-content:space-between; align-items:center; }
 .fcard-tag { font-size:6pt; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--gray-400); }
 
