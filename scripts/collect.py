@@ -3,7 +3,7 @@
 Cross-platform: Windows, macOS, Linux. Doar stdlib.
 Usage: python collect.py https://domeniu.ro
 """
-import sys, re, ssl, time, json, html as ihtml
+import os, sys, re, ssl, time, json, html as ihtml
 import urllib.request, urllib.error
 
 UA = "Mozilla/5.0 (compatible; DevrikaAudit/1.0; +https://devrika.ro)"
@@ -233,17 +233,37 @@ def main():
             print("Nu am putut extrage un URL de produs.")
         print()
 
-    # ---------- PSI ----------
-    print("===== PERFORMANTA (PageSpeed, best-effort fara cheie) =====")
-    psi = fetch(f"https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url={url}&strategy=mobile")
+    # ---------- PSI / CWV ----------
+    key = os.environ.get("GOOGLE_API_KEY") or os.environ.get("PAGESPEED_API_KEY") or ""
+    print("===== PERFORMANTA (PageSpeed / CWV) =====")
+    print("Cheie Google:", "DA (CWV reali)" if key else "NU (best-effort; seteaza GOOGLE_API_KEY pt CWV reali)")
+    psi_url = f"https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url={url}&strategy=mobile"
+    if key: psi_url += "&key=" + key
     try:
-        d = json.loads(psi); lh = d.get("lighthouseResult", {})
+        d = json.loads(fetch(psi_url))
+        # CWV reali din teren (CrUX) — useri reali, daca exista date
+        le = d.get("loadingExperience", {}).get("metrics", {})
+        if le:
+            print("CWV reali (utilizatori, CrUX):")
+            for k_, lbl in [("LARGEST_CONTENTFUL_PAINT_MS", "LCP"),
+                            ("INTERACTION_TO_NEXT_PAINT", "INP"),
+                            ("CUMULATIVE_LAYOUT_SHIFT_SCORE", "CLS")]:
+                m = le.get(k_, {})
+                if m:
+                    v = m.get("percentile"); cat = m.get("category", "")
+                    if k_ == "CUMULATIVE_LAYOUT_SHIFT_SCORE" and v is not None: v = v / 100.0
+                    if k_ == "LARGEST_CONTENTFUL_PAINT_MS" and v is not None: v = f"{v/1000:.2f}s"
+                    if k_ == "INTERACTION_TO_NEXT_PAINT" and v is not None: v = f"{v}ms"
+                    print(f"  {lbl}: {v} ({cat})")
+        else:
+            print("CrUX: fara date de teren (site cu trafic mic). Folosesc lab.")
+        lh = d.get("lighthouseResult", {})
         perf = lh.get("categories", {}).get("performance", {}).get("score")
         print("Performance score (lab):", round(perf * 100) if perf is not None else "n/a")
-        for k, lbl in [("largest-contentful-paint", "LCP"), ("cumulative-layout-shift", "CLS"),
-                       ("total-blocking-time", "TBT"), ("speed-index", "Speed Index")]:
-            v = lh.get("audits", {}).get(k, {}).get("displayValue")
-            if v: print(f"{lbl}: {v}")
+        for k_, lbl in [("largest-contentful-paint", "LCP lab"), ("cumulative-layout-shift", "CLS lab"),
+                        ("total-blocking-time", "TBT"), ("speed-index", "Speed Index")]:
+            v = lh.get("audits", {}).get(k_, {}).get("displayValue")
+            if v: print(f"  {lbl}: {v}")
     except Exception:
         print("PSI indisponibil (rate-limit fara cheie sau eroare). CWV: de masurat manual.")
     print()

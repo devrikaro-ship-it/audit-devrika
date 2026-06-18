@@ -36,18 +36,29 @@ NU folosi tab-ul Shopping (`tbm=shop`/`udm=28`) pentru CSS — acolo apar doar n
 CSS-ul se vede pe **cautarea normala Google**, in blocul **"Produse sponsorizate"** (PLA platite), pe linia de jos a fiecarui card: **"De la <provider>"**.
 
 1. `browser_navigate` la `https://www.google.com/search?q=<nume produs>&gl=ro&hl=ro` (cautare normala, NU shop).
-2. Extrage perechi magazin → "De la X" per card:
+2. Extrage verdictul cu o singura functie determinista (ruleaza prin `browser_evaluate`, inlocuieste `vegis` cu domeniul clientului fara `.ro`):
    ```js
-   () => [...document.querySelectorAll('div')]
-     .filter(d => /De la /.test(d.innerText||'') && (d.innerText||'').length<400)
-     .map(d => {
-       const t=d.innerText;
-       const css=(t.match(/De la\s+([A-Za-z0-9.\- ]{2,25})/)||[])[1];
-       const shop=(t.match(/([A-Za-z0-9.\-]+\.ro|Spring Farma|Dr\.Max)/i)||[])[1];
-       return css&&shop ? shop.trim()+' -> '+css.trim() : null;
-     }).filter(Boolean);
+   (() => {
+     const CLIENT = 'vegis';   // <-- numele clientului (fara .ro)
+     const cards = [...document.querySelectorAll('div')]
+       .filter(d => /De la /.test(d.innerText||'') && (d.innerText||'').length<400);
+     const pairs = [];
+     for (const d of cards) {
+       const t = d.innerText;
+       const css = (t.match(/De la\s+([A-Za-z0-9.\- ]{2,25})/)||[])[1];
+       const shop = (t.match(/([A-Za-z0-9.\-]+\.ro|Spring Farma|Dr\.Max)/i)||[])[1];
+       if (css && shop) pairs.push({shop: shop.trim().replace(/\.ro$/i,''), css: css.trim()});
+     }
+     const uniq = [...new Set(pairs.map(p => p.shop+' -> '+p.css))];
+     const mine = pairs.find(p => new RegExp(CLIENT,'i').test(p.shop));
+     return {
+       client_css: mine ? mine.css : 'NEGASIT in PLA (posibil nu ruleaza Shopping platit acum)',
+       fara_css: mine ? /google/i.test(mine.css) : null,   // true = De la Google = fara CSS real
+       toate: uniq
+     };
+   })()
    ```
-3. Interpretare linia "De la X" pentru clientul tau:
+3. Interpretare `client_css` pentru clientul tau:
    - **`De la Google`** → **fara CSS** → CPC pana la ~20% mai mare = oportunitate clara, spune-i ce pierde.
    - **`De la TRUDA` / `De la Producthero` / `De la smec` / alt nume** → **foloseste deja un CSS** (TRUDA, ProductHero, smec etc.). Schimba unghiul: nu "activeaza CSS", ci optimizare + segmentare + stele.
    - Daca clientul nu apare in PLA la cautare → posibil nu ruleaza Shopping platit acum (oportunitate) sau buget mic.
