@@ -15,7 +15,15 @@ _ctx_insecure = ssl._create_unverified_context()
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, *a, **k): return None
 
+_last = [0.0]
+def _pace(gap=0.4):
+    dt = time.time() - _last[0]
+    if dt < gap:
+        time.sleep(gap - dt)
+    _last[0] = time.time()
+
 def _open(url, no_redirect=False, timeout=TIMEOUT):
+    _pace()  # auto-limitare: evita rate-limit burst pe server-ul tinta
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     last = None
     for ctx in (_ctx, _ctx_insecure):
@@ -31,7 +39,7 @@ def _open(url, no_redirect=False, timeout=TIMEOUT):
             continue
     raise last if last else RuntimeError("open failed")
 
-def fetch(url, retries=1):
+def fetch(url, retries=2):
     for attempt in range(retries + 1):
         try:
             r = _open(url)
@@ -41,7 +49,7 @@ def fetch(url, retries=1):
         except Exception:
             pass
         if attempt < retries:
-            time.sleep(1.5)  # rate-limit burst -> pauza si reincearca
+            time.sleep(1.5 * (attempt + 1))  # rate-limit -> backoff crescator
     return ""
 
 def status(url):
