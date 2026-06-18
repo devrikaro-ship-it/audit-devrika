@@ -55,7 +55,9 @@ Scop: **lead generation** — aratam ce e stricat + cat pierde, ambalat ca sa-l 
    - **doar SEO + Google Ads** (fara stoc, fara recenzii, fara merchandising)
    - design **vizual, putin text**: findings = carduri cu `{sev, title, impact, tag, effort}` — titlu scurt + O singura linie de impact (nu paragrafe)
    - `scores`: doar `{global, seo, ads}`; culori auto (rosu <40, portocaliu 40-69, verde 70+)
-   - **max ~6 carduri** per pagina (SEO findings, Ads findings) ca sa incapa pe A4 cu spatiu
+   - carduri = **un singur rand, mari** (badge severitate + titlu 12pt + impact 10pt 2-3 randuri + tag), ca pasii din plan; se spatiaza automat sa umple pagina A4
+   - **limita stricta ca sa NU dea overflow** (pagini taiate/goale): **costs max 4, seo_findings max 5, ads_findings max 4**; impact max ~3 randuri. Daca pui mai multe / text prea lung → cardul se taie peste footer
+   - sectiuni separate clar prin chip colorat in header (REZUMAT/SEO/GOOGLE ADS/PLAN) + intro scurt 1 rand
    - Ads include MEREU: banda `track_signals` (pixeli DA/NU, vizual) + `ads_verdict` (CSS din research) + cardul de segmentare
    - cand poti, baga **un numar estimat de bani** (marcat estimativ) — vezi `references/framing.md` §Estimare bani
    ```

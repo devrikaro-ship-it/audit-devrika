@@ -29,16 +29,26 @@ def footer(p):
     return (f'<div class="page-footer"><span class="footer-text">Confidential — Devrika Agency · devrika.ro</span>'
             f'<span class="footer-page">Pagina {p}</span></div>')
 
+def phead(label, sub_right, chip="", chip_cls="gray", intro=""):
+    chip_html = f'<span class="sec-chip {chip_cls}">{chip}</span>' if chip else ""
+    intro_html = f'<div class="sec-intro">{intro}</div>' if intro else ""
+    return (f'<div class="page-header"><div class="head-left">{chip_html}'
+            f'<span class="page-section-label">{label}</span></div>'
+            f'<div class="page-logo-sm">{sub_right}</div></div>{intro_html}')
+
+SEV_LABEL = {"critical": "Critic", "high": "Mare", "medium": "Mediu", "low": "Rapid"}
+
 def cards(arr, grow=False):
     out = ""
     for f in arr:
         sev = f.get("sev", "medium")
-        tag = f'<span class="fcard-tag">{f["tag"]}</span>' if f.get("tag") else "<span></span>"
-        eff = f'<span class="fcard-tag">{f["effort"]}</span>' if f.get("effort") else ""
-        out += (f'<div class="fcard {sev}"><div class="fcard-head"><span class="fdot"></span>'
-                f'<span class="fcard-title">{f["title"]}</span></div>'
-                f'<div class="fcard-impact">{f.get("impact","")}</div>'
-                f'<div class="fcard-foot">{tag}{eff}</div></div>')
+        tag = f'<span class="fcard-tag">{f["tag"]}</span>' if f.get("tag") else ""
+        eff = f'<span class="fcard-eff">{f["effort"]}</span>' if f.get("effort") else ""
+        out += (f'<div class="fcard {sev}">'
+                f'<div class="fcard-sev">{SEV_LABEL.get(sev, "Mediu")}</div>'
+                f'<div class="fcard-main"><div class="fcard-title">{f["title"]}</div>'
+                f'<div class="fcard-impact">{f.get("impact","")}</div></div>'
+                f'<div class="fcard-side">{tag}{eff}</div></div>')
     return f'<div class="cards{" grow" if grow else ""}">{out}</div>'
 
 def tech_chips(arr, title="Semnale tehnice verificate"):
@@ -107,7 +117,7 @@ def build(d):
 </div>
 
 <div class="page page-inner">
-  <div class="page-header"><div class="page-section-label">Ce am gasit pe scurt</div><div class="page-logo-sm">{sub}</div></div>
+  {phead("Ce am gasit pe scurt", sub, "REZUMAT", "gray")}
   <div class="pfill">
     <div class="callout"><strong>Pe scurt:</strong> {d.get("summary","")}</div>
     <div class="hero-stats">
@@ -116,16 +126,14 @@ def build(d):
       <div class="hero-stat good"><div class="hero-stat-num">{d.get("n_oportunitati","")}</div>
         <div class="hero-stat-txt">oportunitati de crestere, gata de pornit</div></div>
     </div>
-    <div class="section-title">Ce te costa acum</div>
+    <div class="section-title">Probleme principale</div>
     {cards(d.get("costs", []), grow=True)}
-    <div class="section-title">Castiguri rapide (sub 1 zi)</div>
-    {cards(d.get("wins", []), grow=True)}
   </div>
   {footer(2)}
 </div>
 
 <div class="page page-inner">
-  <div class="page-header"><div class="page-section-label">Cum te gasesc clientii (SEO)</div><div class="page-logo-sm">{sub}</div></div>
+  {phead("Cum te gasesc clientii", sub, "SEO", "seo", d.get("seo_intro", "Cat de usor te gasesc clientii in Google si in raspunsurile AI."))}
   <div class="pfill">
     {tech_chips(d.get("tech_signals", []))}
     <div class="section-title">Ce te tine pe loc</div>
@@ -135,7 +143,7 @@ def build(d):
 </div>
 
 <div class="page page-inner">
-  <div class="page-header"><div class="page-section-label">Google Ads &amp; Shopping</div><div class="page-logo-sm">{sub}</div></div>
+  {phead("Google Ads &amp; Shopping", sub, "GOOGLE ADS", "ads", d.get("ads_intro", "Ce masori, pe ce CSS rulezi in Shopping si unde se pierde buget."))}
   <div class="pfill">
     {tech_chips(d.get("track_signals", []), "Ce masori acum (tracking &amp; pixeli)")}
     {verdict_block}
@@ -146,7 +154,7 @@ def build(d):
 </div>
 
 <div class="page page-inner">
-  <div class="page-header"><div class="page-section-label">Ce facem mai departe</div><div class="page-logo-sm">{sub}</div></div>
+  {phead("Ce facem mai departe", sub, "PLAN", "gray")}
   <div class="pfill">
     {f'<div class="callout">{d["plan_intro"]}</div>' if d.get("plan_intro") else ""}
     <div class="section-title">Plan prioritizat</div>
