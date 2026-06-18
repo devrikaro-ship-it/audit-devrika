@@ -14,8 +14,8 @@ Scop: scoruri **credibile si consistente** intre clienti. Nu sunt exacte stiinti
 Scor global = suma ponderata. Rotunjeste.
 
 ## Bareme rapide (porneste de la 100, scazi)
-**SEO Tehnic** — -25 sitemap rupt/404; -20 www duplicat 200; -15 filtre indexabile; -10 fara canonical; -8 fara security headers; -5 robots gresit.
-**Continut** — -20 H1 lipsa homepage; -15 meta desc lipsa pagini cheie; -15 zero reviews; -12 descrieri categorii lipsa; -8 title-uri slabe.
+**SEO Tehnic** — -25 sitemap rupt/404; -20 www duplicat 200 sau **noindex pe homepage**; -15 filtre indexabile sau **broken links multe**; -10 fara canonical; -10 **security headers lipsa** (HSTS/CSP/X-Frame); -5 robots gresit; -5 hreflang lipsa la site multi-limba.
+**Continut** — -20 H1 lipsa homepage; -15 meta desc lipsa pagini cheie; -15 zero reviews; -12 descrieri categorii lipsa; -10 **readability slaba** (propozitii lungi) sau **structura H2 lipsa**; -8 title-uri slabe.
 **Google Ads/Shopping** — -25 nu ruleaza deloc Ads (oportunitate, dar scor mic = durere); -20 fara feed/Shopping; -15 fara reviews (zero stele Shopping); -15 **fara segmentare produse** (buget pe Villains/Zombies — penalizeaza MEREU daca nu exista sistem); -12 titluri produs neoptimizate; -10 **fara CSS** ("By Google Shopping" = CPC mai mare); -10 multe produse OutOfStock.
 **Viteza & Mobil** — -25 PSI <40 sau HTML >800KB; -15 TTFB >1s; -10 fara WebP; -8 fonturi render-blocking.
 **Schema** — -30 fara Product; -20 fara reviews/AggregateRating; -15 fara LocalBusiness (la local); -10 fara Breadcrumb; -10 @context http.

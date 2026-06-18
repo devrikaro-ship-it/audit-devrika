@@ -30,11 +30,24 @@
   ],
   "speed_note": "<strong>Nota:</strong> Viteza exacta pe mobil nu a putut fi masurata automat la momentul auditului. O confirmam la prima discutie cu o masuratoare completa.",
   "seo_intro": "Vestea buna: fundatia e serioasa. Site-ul merge pe HTTPS, redirectarile sunt corecte, paginile de categorie au text bogat (3.000+ cuvinte), iar fisele de produs sunt foarte bine structurate. Mai jos — ce te tine sub potential.",
+  "tech_signals": [
+    { "label": "HTTPS + redirects", "ok": true },
+    { "label": "Sitemap + robots", "ok": true },
+    { "label": "Schema produs (pret/stoc)", "ok": true },
+    { "label": "H1 pe homepage", "ok": false },
+    { "label": "Canonical homepage", "ok": false },
+    { "label": "Security headers (HSTS/CSP)", "ok": false },
+    { "label": "Recenzii / stele produs", "ok": false },
+    { "label": "Imagini format modern (WebP)", "ok": false },
+    { "label": "llms.txt (AI-ready)", "ok": false },
+    { "label": "Broken links", "ok": true }
+  ],
   "seo_findings": [
     { "sev": "critical", "sev_label": "Grav", "title": "Prima pagina nu are titlu principal (H1) si nici canonical", "desc": "Pe homepage am gasit 0 etichete H1 si lipseste eticheta canonical.", "meaning": "Google nu intelege clar tema paginii principale — cea mai importanta pagina porneste cu un handicap.", "area": "On-Page", "effort": "30 min", "effort_level": "low" },
     { "sev": "high", "sev_label": "Important", "title": "Produsele nu au recenzii / stelute", "desc": "Lipsa AggregateRating in datele structurate ale produselor.", "meaning": "Apari fara stele, in timp ce competitorii cu recenzii apar cu 4-5 stelute. Lumea da click pe ei.", "area": "Incredere / CTR", "effort": "3h setup", "effort_level": "medium" },
     { "sev": "high", "sev_label": "Important", "title": "Sitemap intr-un singur fisier de 28.521 pagini", "desc": "Sitemap monolitic, neimpartit pe categorii/produse.", "meaning": "Google parcurge greu un magazin asa mare — produsele noi se indexeaza incet.", "area": "Indexare", "effort": "2–3h", "effort_level": "medium" },
     { "sev": "medium", "sev_label": "De rezolvat", "title": "Imagini grele (JPG/PNG) + 6 imagini fara descriere", "desc": "Lipsa format modern (WebP); 6 imagini fara text alternativ pe homepage.", "meaning": "Pagina se incarca mai greu pe telefon si pierzi trafic din cautarea de imagini.", "area": "Viteza / Imagini", "effort": "3h", "effort_level": "medium" },
+    { "sev": "medium", "sev_label": "De rezolvat", "title": "Security headers lipsa (HSTS, CSP, Permissions-Policy)", "desc": "Raspunsul serverului nu trimite headerele standard de securitate.", "meaning": "Site-ul nu are protectiile standard — risc pentru date si un semnal de incredere mai slab pentru Google.", "area": "Securitate", "effort": "30 min", "effort_level": "low" },
     { "sev": "low", "sev_label": "Igiena", "title": "Lipsa llms.txt si date firma pe homepage", "desc": "llms.txt returneaza 404; pe homepage doar BreadcrumbList, fara Organization.", "meaning": "Mai putin pregatit pentru Google AI / ChatGPT si pentru brand in Google.", "area": "AI / Brand", "effort": "1h", "effort_level": "low" }
   ],
   "seo_strengths": [

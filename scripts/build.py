@@ -58,6 +58,19 @@ def strength_rows(arr):
     return "".join(f'<tr><td><span class="finding-title">{s["title"]}</span></td>'
                    f'<td class="finding-desc">{s["why"]}</td></tr>' for s in arr)
 
+def tech_chips(arr):
+    if not arr:
+        return ""
+    chips = ""
+    for c in arr:
+        ok = c.get("ok", True)
+        col = "#1A7A4A" if ok else "#C0392B"
+        mark = "&#10003;" if ok else "&#10007;"
+        chips += (f'<span class="chip" style="margin:0 2mm 2mm 0"><span style="color:{col};font-weight:700">{mark}</span> '
+                  f'{c["label"]}</span>')
+    return ('<div class="section-title">Semnale tehnice verificate</div>'
+            f'<div style="display:flex;flex-wrap:wrap">{chips}</div>')
+
 def plan_rows(arr):
     out = ""
     for i, a in enumerate(arr):
@@ -134,6 +147,7 @@ def build(d):
 <div class="page page-inner">
   <div class="page-header"><div class="page-section-label">Cum te gasesc clientii (SEO)</div><div class="page-logo-sm">{sub}</div></div>
   {f'<div class="callout">{d["seo_intro"]}</div>' if d.get("seo_intro") else ""}
+  {tech_chips(d.get("tech_signals", []))}
   <div class="section-title">Probleme care iti scad vanzarile</div>
   <table class="findings-table"><thead><tr><th class="col-sev">Cat de grav</th><th>Problema</th><th class="col-area">Arie</th><th class="col-fix">Efort fix</th></tr></thead>
     <tbody>{finding_rows(d.get("seo_findings",[]))}</tbody></table>

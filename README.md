@@ -5,10 +5,13 @@ Genereaza un **raport PDF de audit (SEO + Google Ads/Shopping)** branduit Devrik
 ![tip](https://img.shields.io/badge/tip-lead--gen-orange) ![input](https://img.shields.io/badge/input-doar%20URL-blue)
 
 ## Ce face
-- Crawl public al site-ului (fara acces la cont)
+- Crawl public al site-ului — **zero acces la cont, doar URL-ul**
 - Scor de vizibilitate online 0-100 + sub-scoruri
+- **SEO**: tehnic (HTTPS, redirects, sitemap, canonical, robots, hreflang), security headers (HSTS/CSP), broken links, on-page (title/meta/H1/H2), schema, imagini, viteza (TTFB + CWV reali din CrUX), readability + citability AI
+- **Google Ads / Shopping**: ruleaza Shopping?, ce CSS foloseste (ProductHero/TRUDA/fara), segmentare produse, competitie
 - 5 pagini A4: coperta, rezumat, SEO, Google Ads/Shopping, plan + CTA
 - PDF profesionist generat din HTML via Chrome headless
+- Tot ce e gratis, fara chei API (optional: GOOGLE_API_KEY pt CWV reali fara rate-limit)
 
 ## Instalare
 macOS / Linux:

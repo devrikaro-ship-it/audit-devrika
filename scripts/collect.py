@@ -61,6 +61,15 @@ def status(url):
     except Exception:
         return "ERR"
 
+def headers(url):
+    try:
+        r = _open(url)
+        return {k.lower(): v for k, v in r.headers.items()}
+    except urllib.error.HTTPError as e:
+        return {k.lower(): v for k, v in e.headers.items()} if e.headers else {}
+    except Exception:
+        return {}
+
 def ttfb(url):
     try:
         t0 = time.time()
@@ -98,7 +107,11 @@ def main():
     h1 = re.findall(r"<h1[^>]*>(.*?)</h1>", h, re.I | re.S)
     print("H1 count:", len(h1))
     if h1: print("H1[0]:", ihtml.unescape(re.sub(r"<[^>]+>|\s+", " ", h1[0]).strip())[:160])
+    print("H2 count:", len(re.findall(r"<h2[^>]*>", h, re.I)))
     print("Canonical:", first(r'<link[^>]+rel=["\']canonical["\'][^>]+href=["\'](.*?)["\']', h))
+    mr = re.search(r'<meta[^>]+name=["\']robots["\'][^>]+content=["\']([^"\']+)', h, re.I)
+    print("Meta robots:", (mr.group(1) + (" — !!! NOINDEX" if mr and "noindex" in mr.group(1).lower() else "")) if mr else "(lipsa, default index)")
+    print("Hreflang:", "DA (" + str(len(re.findall(r'hreflang=', h, re.I))) + ")" if re.search(r"hreflang", h, re.I) else "NU")
     print("Lang:", first(r'<html[^>]+lang=["\'](.*?)["\']', h))
     imgs = re.findall(r"<img\b[^>]*>", h, re.I)
     noalt = [i for i in imgs if not re.search(r'alt=["\'][^"\']+["\']', i)]
@@ -136,6 +149,51 @@ def main():
     if t is not None:
         print("  -> LENT (>1s): server greu, semnal rosu" if t > 1.0 else "  -> mediu (0.5-1s): de imbunatatit" if t > 0.5 else "  -> ok (<0.5s)")
     print("  -> HTML f. greu (>800KB): risc LCP mobil" if kb > 800 else "  -> HTML greu (>300KB)" if kb > 300 else "  -> HTML ok")
+    print()
+
+    # ---------- SECURITATE (headere HTTP) ----------
+    print("===== SECURITATE (headere HTTP) =====")
+    hd = headers(url + "/")
+    sec = {"strict-transport-security": "HSTS", "x-frame-options": "X-Frame-Options",
+           "x-content-type-options": "X-Content-Type-Options", "content-security-policy": "CSP",
+           "referrer-policy": "Referrer-Policy", "permissions-policy": "Permissions-Policy"}
+    missing = [lbl for k, lbl in sec.items() if k not in hd]
+    print("Prezente:", ", ".join(lbl for k, lbl in sec.items() if k in hd) or "niciuna")
+    print("Lipsa:", ", ".join(missing) or "niciuna (toate prezente)")
+    print("Server:", hd.get("server", "(ascuns)"))
+    print()
+
+    # ---------- STRUCTURA & AI-READY ----------
+    print("===== STRUCTURA & CITABILITATE (AI/GEO) =====")
+    visible = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", re.sub(r"(?is)<(script|style|nav|footer).*?</\1>", " ", h)))
+    sents = [s for s in re.split(r"[.!?]+", visible) if len(s.split()) > 2]
+    avg_words = round(sum(len(s.split()) for s in sents) / len(sents), 1) if sents else 0
+    print(f"Propozitii lungime medie: {avg_words} cuvinte", "-> greu de citit (>22)" if avg_words > 22 else "-> ok")
+    print("Liste (ul/ol):", len(re.findall(r"<(ul|ol)\b", h, re.I)))
+    print("FAQ pe pagina:", "DA" if re.search(r"faq|intrebari frecvente", h, re.I) else "NU")
+    paras = re.findall(r"<p\b[^>]*>(.*?)</p>", h, re.I | re.S)
+    longp = sum(1 for p in paras if len(re.sub(r"<[^>]+>", "", p).split()) > 80)
+    print(f"Paragrafe lungi (>80 cuv): {longp} (citabilitate AI scade daca multe)")
+    js_dep = words < 120 and len(re.findall(r"<script", h, re.I)) > 10
+    print("Continut dependent de JS:", "POSIBIL (text putin + multe scripturi -> risc randare)" if js_dep else "NU (text in HTML)")
+    print()
+
+    # ---------- LINK-URI (broken) ----------
+    print("===== LINK-URI INTERNE (broken check, esantion) =====")
+    links = re.findall(r'href=["\'](https?://[^"\']+|/[^"\':#][^"\']*)["\']', h)
+    internal = []
+    seen = set()
+    for l in links:
+        full = l if l.startswith("http") else url + l
+        if domain in full and full not in seen and not re.search(r"\.(jpg|png|css|js|svg|webp|ico|woff)", full, re.I):
+            seen.add(full); internal.append(full)
+    print(f"Link-uri interne pe homepage: {len(internal)}")
+    broken = []
+    for l in internal[::max(1, len(internal) // 12)][:12]:
+        c = status(l)
+        if isinstance(c, int) and c >= 400:
+            broken.append(f"{c} {l}")
+    print("Broken (din esantion):", "; ".join(broken) if broken else "0 (esantion curat)")
     print()
 
     # ---------- ROBOTS ----------

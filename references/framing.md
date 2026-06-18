@@ -19,6 +19,10 @@ Fiecare problema se traduce in **una din astea 3**, niciodata jargon gol:
 | Fara feed Shopping optimizat | "Nu aparti in Google Shopping unde cumparatorii compara preturi gata sa cumpere" |
 | Fara CSS pe Shopping (vezi "By Google Shopping") | "Platesti pana la 20% mai mult pe fiecare click decat e nevoie — competitia pe CSS plateste mai putin pe aceeasi pozitie" |
 | Fara segmentare produse (mereu) | "Bugetul se duce egal pe tot catalogul, inclusiv pe produsele care nu vand niciodata (Villains/Zombies). Banii pleaca pe ce nu aduce comenzi." |
+| Security headers lipsa (HSTS/CSP) | "Site-ul nu are protectiile standard de securitate — risc pentru date si un semnal de incredere mai slab pentru Google" |
+| Broken links (404) | "Ai linkuri care duc in pagini moarte — clientul se loveste de erori, iar Google iroseste timp pe ele" |
+| Propozitii lungi / fara structura | "Textul e greu de citit si de inteles, si mai greu de citat de Google AI / ChatGPT — pierzi vizibilitate in raspunsurile AI" |
+| Fara FAQ / liste / paragrafe scurte | "Continutul nu e usor de extras de motoarele AI — concurentii cu raspunsuri clare sunt citati, tu nu" |
 
 ## Ton
 - Direct, simplu, fraze scurte. Zero abrevieri neexplicate.
