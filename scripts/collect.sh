@@ -76,6 +76,15 @@ echo "http://$DOMAIN  -> $(code "http://$DOMAIN")  (asteptat 301 -> https)"
 echo "www.$DOMAIN     -> $(code "https://www.$DOMAIN")  (verifica daca face redirect la non-www sau e duplicat 200)"
 echo
 
+# ---------- VITEZA (masuratoare reala server, fara cheie) ----------
+echo "===== VITEZA SERVER (TTFB, masurat) ====="
+TTFB=$(curl -s -o /dev/null -w "%{time_starttransfer}" --max-time 25 -A "$UA" "$URL/" 2>/dev/null)
+KB=$(( HSIZE / 1024 ))
+echo "TTFB homepage: ${TTFB}s | HTML homepage: ${KB} KB"
+awk -v t="$TTFB" 'BEGIN{ if(t==""){print "TTFB: nemasurat"} else if(t+0>1.0){print "  -> LENT (>1s): server greu, semnal rosu"} else if(t+0>0.5){print "  -> mediu (0.5-1s): de imbunatatit"} else {print "  -> ok (<0.5s)"} }'
+awk -v k="$KB" 'BEGIN{ if(k+0>800){print "  -> HTML f. greu (>800KB): risc LCP mobil"} else if(k+0>300){print "  -> HTML greu (>300KB)"} else {print "  -> HTML ok"} }'
+echo
+
 # ---------- ROBOTS ----------
 echo "===== ROBOTS.TXT ====="
 fetch "$URL/robots.txt" > "$TMP/robots.txt"
@@ -123,7 +132,7 @@ echo "Product schema cu pret: $(grep -oqi 'priceCurrency' "$TMP/home.html" && ec
 echo "Review/AggregateRating in schema: $(grep -qi 'AggregateRating\|"Review"' "$TMP/home.html" && echo DA || echo 'NU pe homepage')"
 # feed produse comune
 echo "Feed produse posibil (verificat HTTP):"
-for f in "/feed" "/product-feed" "/feed.xml" "/wp-content/uploads/woo-feed" "/index.php?route=extension/feed/google_sitemap" "/googlebase.xml" "/feed/google" ; do
+for f in "/feed" "/product-feed" "/feed.xml" "/wp-content/uploads/woo-feed" "/index.php?route=extension/feed/google_sitemap" "/googlebase.xml" "/feed/google" "/products.json" "/sitemap_products_1.xml" "/collections/all.atom" ; do
   c=$(code "$URL$f"); [ "$c" = "200" ] && echo "  $f -> $c"
 done
 echo "GMC/Shopping nota: ID Merchant Center si datele din cont NU sunt publice — raporteaza ca 'de verificat' + framing oportunitate."

@@ -26,6 +26,13 @@ CHROME="$(find_chrome)" || {
   exit 1
 }
 
+# garda: refuza daca au ramas {{TOKEN}}-uri necompletate
+if grep -qE '\{\{[A-Z_0-9]+\}\}' "$HTML"; then
+  echo "EROARE: au ramas tokens necompletate in $HTML — completeaza-le inainte de PDF:" >&2
+  grep -oE '\{\{[A-Z_0-9]+\}\}' "$HTML" | sort -u >&2
+  exit 1
+fi
+
 # cale absoluta pt file://
 ABS_HTML="$(cd "$(dirname "$HTML")" && pwd)/$(basename "$HTML")"
 
