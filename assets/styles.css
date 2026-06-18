@@ -36,7 +36,9 @@ h1,h2,h3,h4,h5 { font-family:'Sora',sans-serif; }
 .cover-meta { font-size:7pt; color:var(--gray-400); line-height:1.8; }
 .cover-meta strong { color:rgba(255,255,255,0.7); font-weight:600; }
 .cover-logo-area { text-align:right; }
-.cover-logo-area svg { height:12mm; width:auto; display:inline-block; }
+.logo-lockup { display:inline-flex; align-items:center; gap:3mm; }
+.logo-mark { height:13mm; width:auto; display:block; background:#fff; border-radius:8px; }
+.logo-word { font-family:'Sora',sans-serif; font-size:17pt; font-weight:700; color:var(--white); letter-spacing:-0.01em; }
 .cover-logo-text { font-family:'Sora',sans-serif; font-size:9pt; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:0.08em; }
 .page-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:7mm; padding-bottom:3mm; border-bottom:2px solid var(--navy); }
 .page-section-label { font-family:'Sora',sans-serif; font-size:14pt; font-weight:700; color:var(--navy); letter-spacing:-0.01em; }
@@ -126,27 +128,21 @@ h1,h2,h3,h4,h5 { font-family:'Sora',sans-serif; }
 .pfill { display:flex; flex-direction:column; height:250mm; }
 .pfill .section-title:first-of-type { margin-top:0; }
 
-/* carduri findings (2 coloane, putin text) */
-.cards { display:grid; grid-template-columns:1fr 1fr; gap:4mm; margin-bottom:4mm; }
+/* carduri findings (2 coloane, aerisite ca pasii din plan) */
+.cards { display:grid; grid-template-columns:1fr 1fr; gap:4.5mm; margin-bottom:4mm; }
 .cards.grow { flex:1; grid-auto-rows:1fr; margin-bottom:0; }
-.fcard { border:1px solid var(--gray-200); border-radius:6px; padding:3.5mm 4mm 3mm 5mm; position:relative; overflow:hidden; display:flex; flex-direction:column; }
-.fcard-impact { flex:1; }
-.fcard::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; }
-.fcard.critical::before { background:var(--red); }
-.fcard.high::before { background:var(--orange); }
-.fcard.medium::before { background:var(--yellow); }
-.fcard.low::before { background:var(--green); }
-.fcard-head { display:flex; align-items:center; gap:2mm; margin-bottom:2mm; }
-.fdot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.fcard { border:1px solid var(--gray-200); border-radius:9px; padding:5mm 5.5mm; position:relative; overflow:hidden; display:flex; flex-direction:column; }
+.fcard-head { display:flex; align-items:flex-start; gap:2.5mm; margin-bottom:2.5mm; }
+.fdot { width:9px; height:9px; border-radius:50%; flex-shrink:0; margin-top:1.2mm; }
 .fcard.critical .fdot { background:var(--red); }
 .fcard.high .fdot { background:var(--orange); }
 .fcard.medium .fdot { background:var(--yellow); }
 .fcard.low .fdot { background:var(--green); }
-.fcard-title { font-family:'Sora',sans-serif; font-weight:700; font-size:8.5pt; color:var(--navy); line-height:1.25; }
-.fcard-impact { font-size:7.5pt; color:var(--gray-600); line-height:1.45; }
-.fcard-foot { margin-top:2mm; }
-.fcard-foot { margin-top:2.5mm; display:flex; justify-content:space-between; align-items:center; }
-.fcard-tag { font-size:6pt; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--gray-400); }
+.fcard-title { font-family:'Sora',sans-serif; font-weight:700; font-size:9pt; color:var(--navy); line-height:1.3; }
+.fcard-impact { flex:1; font-size:8pt; color:var(--gray-600); line-height:1.5; }
+.fcard-foot { margin-top:3.5mm; display:flex; justify-content:space-between; align-items:center; gap:2mm; }
+.fcard-tag { font-size:6.5pt; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; padding:1.2mm 2.8mm; border-radius:4px; background:var(--amber-bg); color:var(--amber); }
+.fcard-foot .fcard-tag:last-child:not(:first-child) { background:var(--gray-100); color:var(--gray-600); }
 
 /* bloc verdict mare (ex CSS Shopping) */
 .verdict-block { display:flex; align-items:center; gap:5mm; background:var(--navy); color:var(--white); border-radius:8px; padding:5mm 6mm; margin-bottom:5mm; }

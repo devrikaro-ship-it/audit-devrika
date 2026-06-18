@@ -4,12 +4,18 @@ Design vizual: carduri, scoruri mari, putin text. Doar SEO + Google Ads.
 Usage: python build.py date.json raport.html
 Schema JSON: vezi assets/example.json
 """
-import os, sys, json
+import os, sys, json, base64
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CSS = open(os.path.join(HERE, "..", "assets", "styles.css"), encoding="utf-8").read()
-_logo_path = os.path.join(HERE, "..", "assets", "logo.svg")
-LOGO = open(_logo_path, encoding="utf-8").read() if os.path.exists(_logo_path) else '<div class="cover-logo-text">DEVRIKA AGENCY</div>'
+_mark = os.path.join(HERE, "..", "assets", "logo-mark.png")
+if os.path.exists(_mark):
+    _b64 = base64.b64encode(open(_mark, "rb").read()).decode()
+    MARK = f'<img class="logo-mark" src="data:image/png;base64,{_b64}" alt="Devrika">'
+    LOGO = f'<div class="logo-lockup">{MARK}<span class="logo-word">devrika</span></div>'
+else:
+    MARK = ""
+    LOGO = '<div class="cover-logo-text">DEVRIKA AGENCY</div>'
 
 def color(s):
     s = int(s)
